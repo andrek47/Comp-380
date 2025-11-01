@@ -7,6 +7,8 @@ import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAnalytics firebaseAnalytics;
@@ -24,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
             bundle.putString(FirebaseAnalytics.Param.METHOD, "button_click");
             firebaseAnalytics.logEvent("test_firebase_event", bundle);
             Toast.makeText(MainActivity.this, "Firebase event logged!", Toast.LENGTH_SHORT).show();
-        });
+       });
+        FirebaseAuth.getInstance().signOut();
+
     }
 }

@@ -7,7 +7,6 @@
 *.iml
 
 # Gradle build system files and caches
-.gradle/
 build/
 app/build/
 
