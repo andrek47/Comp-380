@@ -1,0 +1,6 @@
+<resources>
+    <!-- App theme used by your manifest -->
+    <style name="Theme.KeepPace" parent="Theme.Material3.Light.NoActionBar">
+        <!-- You can customize colors/typography here later -->
+    </style>
+</resources>

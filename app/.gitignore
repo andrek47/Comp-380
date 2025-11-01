@@ -1,0 +1,39 @@
+# ==========================================
+# Android Studio & Gradle (auto-generated)
+# ==========================================
+
+# Android Studio project metadata
+.idea/
+*.iml
+
+# Gradle build system files and caches
+.gradle/
+build/
+app/build/
+
+# Local SDK path (different for each computer)
+local.properties
+
+# Logs, temp files, OS clutter
+*.log
+.DS_Store
+Thumbs.db
+
+# ==========================================
+# Firebase / Secrets
+# ==========================================
+
+# Firebase config file (keep private)
+app/google-services.json
+
+# Keystore files for signing (private)
+*.jks
+*.keystore
+
+# ==========================================
+# Miscellaneous (optional but recommended)
+# ==========================================
+
+# Heap dumps, lint reports, etc.
+*.hprof
+lint-results*
