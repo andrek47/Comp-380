@@ -19,6 +19,7 @@ package com.example.keeppace;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -46,6 +47,8 @@ public class EmailPasswordActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
+        Button backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> finish());
     }
 
     // [START on_start_check_user]
@@ -119,6 +122,7 @@ public class EmailPasswordActivity extends AppCompatActivity {
                 });
         // [END send_email_verification]
     }
+
 
     private void reload() { }
 
