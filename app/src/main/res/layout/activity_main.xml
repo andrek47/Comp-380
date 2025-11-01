@@ -12,16 +12,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <Button
+    <!--<Button
         android:id="@+id/goToHomePage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go to Homepage" />
+        android:text="Go to Homepage" /> -->
+
+    <ImageView
+        android:id="@+id/KeepPacelogo"
+        android:layout_width="283dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@String/app_logo"
+        android:src="@drawable/keep_pace_logo" />
 
     <Button
         android:id="@+id/goToAuth"
-        android:text="Go to Firebase Login"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Go to Firebase Login" />
+
 
 </LinearLayout>

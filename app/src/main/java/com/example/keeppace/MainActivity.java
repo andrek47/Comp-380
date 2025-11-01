@@ -18,13 +18,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);        setContentView(R.layout.activity_main); // connects to the XML layout
 
-        Button goToHomePage = findViewById(R.id.goToHomePage);
+       // Button goToHomePage = findViewById(R.id.goToHomePage);
         Button goToAuth = findViewById(R.id.goToAuth);
 
-        goToHomePage.setOnClickListener(view -> {
+        /*goToHomePage.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this,HomePage.class);
             startActivity(intent);
-        } );
+        } );*/
         goToAuth.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, EmailPasswordActivity.class);
             startActivity(intent);
