@@ -31,6 +31,10 @@
             android:name=".EmailPasswordActivity"
             android:exported="true"/>
 
+        <activity
+            android:name=".UserCreation"
+            android:exported="true"/>
+
 
 
 

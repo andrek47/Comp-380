@@ -16,7 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
 import android.widget.TextView;
-import android.widget.Toast;
+//import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         ClickableSpan signUpClick = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                Intent intent = new Intent(MainActivity.this, EmailPasswordActivity.class);
+                Intent intent = new Intent(MainActivity.this, UserCreation.class);
                 startActivity(intent);
             }
         };

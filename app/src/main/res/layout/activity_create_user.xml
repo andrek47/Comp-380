@@ -9,6 +9,13 @@
     tools:context=".EmailPasswordActivity">
 
     <!-- Email input -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create User"
+        android:textSize="24sp"
+        android:layout_marginTop="20dp"/>
+
     <EditText
         android:id="@+id/fieldEmail"
         android:hint="Email"
@@ -30,34 +37,16 @@
         android:importantForAutofill="yes"
         android:layout_marginTop="10dp" />
 
-    <!-- Sign in button -->
-
-    <!-- Sign out button -->
-  <!--  <Button
-        android:id="@+id/signOutButton"
-        android:text="Sign Out"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp" /> -->
-
-    <!-- Status label (optional) -->
+    <!-- Create account button -->
     <Button
-        android:id="@+id/emailSignInButton"
+        android:id="@+id/emailCreateAccountButton"
+        android:text="Create Account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Sign In"
+        android:layout_marginTop="24dp"
         android:backgroundTint="@color/material_dynamic_primary30"/>
     />
 
-    <!--<TextView
-        android:id="@+id/statusText"
-        android:layout_width="10dp"
-        android:layout_height="12dp"
-        android:layout_marginTop="20dp"
-        android:text=""
-        android:textSize="16sp" />
-        -->
     <Button
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
