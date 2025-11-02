@@ -6,11 +6,11 @@
     android:gravity="center"
     android:padding="24dp">
 
-    <TextView
+   <!-- <TextView
         android:text="Start"
         android:textSize="24sp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" /> -->
 
     <!--<Button
         android:id="@+id/goToHomePage"
@@ -19,20 +19,38 @@
         android:text="Go to Homepage" /> -->
 
     <ImageView
-        android:id="@+id/KeepPacelogo"
-        android:layout_width="283dp"
-        android:layout_height="250dp"
+        android:id="@+id/KeepPacelogot"
+        android:layout_width="347dp"
+        android:layout_height="344dp"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
         android:adjustViewBounds="true"
-        android:contentDescription="@String/app_logo"
-        android:src="@drawable/keep_pace_logo" />
+        android:src="@drawable/keep_pace_logot"
+        android:background="@android:color/transparent"/>
 
     <Button
         android:id="@+id/goToAuth"
+        android:layout_width="197dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:text="Go to Firebase Login"
+        android:backgroundTint="@color/material_dynamic_primary30"/>
+
+    <!--<Button
+        android:id="@+id/emailCreateAccountButton"
+        android:text="Create Account"
+        android:layout_width="197dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/material_dynamic_primary30"/> -->
+    
+    <TextView
+        android:id="@+id/signUpText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go to Firebase Login" />
+        android:text="New To Keep Pace? Sign Up"/>
+
 
 
 </LinearLayout>
