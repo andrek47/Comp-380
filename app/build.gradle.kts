@@ -32,20 +32,27 @@ dependencies {
     implementation("com.google.android.material:material:1.12.0")
 
     // Import the BoM for the Firebase platform
-    implementation(platform("com.google.firebase:firebase-bom:34.4.0"))
+    implementation(platform("com.google.firebase:firebase-bom:34.5.0"))
 
     // Add the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation("com.google.firebase:firebase-auth")
 
+
+
+    implementation("com.firebaseui:firebase-ui-auth:8.0.2")
+
+    implementation("androidx.appcompat:appcompat:1.7.0")
+
+
 }
 
 android {
-    namespace = "com.example.keeppace"  // <-- use your app's package
+    namespace = "com.comp380.keeppace"  // <-- use your app's package
     compileSdk = 34                     // 34 is widely supported; you can raise later
 
     defaultConfig {
-        applicationId = "com.example.keeppace"
+        applicationId = "com.comp380.keeppace"
         minSdk = 23
         targetSdk = 34
         versionCode = 1

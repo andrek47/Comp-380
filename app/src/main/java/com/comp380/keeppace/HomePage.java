@@ -1,4 +1,4 @@
-package com.example.keeppace;
+package com.comp380.keeppace;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;

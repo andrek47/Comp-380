@@ -1,4 +1,4 @@
-package com.example.keeppace; // make sure this matches your package name
+package com.comp380.keeppace; // make sure this matches your package name
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
