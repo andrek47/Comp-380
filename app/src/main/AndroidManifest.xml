@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.keeppace">  <!-- 👈 make sure this matches your actual package name -->
+    package="com.comp380.keeppace">  <!-- 👈 make sure this matches your actual package name -->
 
     <application
         android:allowBackup="true"
@@ -15,7 +15,7 @@
 
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.comp380.keeppace.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,15 +24,15 @@
         </activity>
 
         <activity
-            android:name=".HomePage"
+            android:name="com.comp380.keeppace.HomePage"
             android:exported="true"/>
 
         <activity
-            android:name=".EmailPasswordActivity"
+            android:name="com.comp380.keeppace.EmailPasswordActivity"
             android:exported="true"/>
 
         <activity
-            android:name=".UserCreation"
+            android:name="com.comp380.keeppace.UserCreation"
             android:exported="true"/>
 
 

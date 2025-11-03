@@ -6,9 +6,9 @@
     android:gravity="center_horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EmailPasswordActivity">
+    tools:context="com.comp380.keeppace.EmailPasswordActivity">
 
-    <!-- Email input -->
+    <!-- Title -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,6 +16,7 @@
         android:textSize="24sp"
         android:layout_marginTop="20dp"/>
 
+    <!-- Email -->
     <EditText
         android:id="@+id/fieldEmail"
         android:hint="Email"
@@ -26,7 +27,7 @@
         android:importantForAutofill="yes"
         android:layout_marginTop="155dp"/>
 
-    <!-- Password input -->
+    <!-- Password -->
     <EditText
         android:id="@+id/fieldPassword"
         android:hint="Password"
@@ -37,23 +38,32 @@
         android:importantForAutofill="yes"
         android:layout_marginTop="10dp" />
 
-    <!-- Create account button -->
+    <!-- Create account -->
     <Button
         android:id="@+id/emailCreateAccountButton"
         android:text="Create Account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:backgroundTint="@color/material_dynamic_primary30"/>
-    />
+        android:backgroundTint="@color/material_dynamic_primary30" />
 
+    <!-- Google Sign-In -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/googleSignInButton"
+        android:text="Create Account With Google"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/material_dynamic_primary30" />
+
+    <!-- Back -->
     <Button
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Back"
-        android:backgroundTint="@color/material_dynamic_primary30"/>
-    />
+        android:backgroundTint="@color/material_dynamic_primary30" />
 
 </LinearLayout>

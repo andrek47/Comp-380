@@ -1,4 +1,4 @@
-package com.example.keeppace;
+package com.comp380.keeppace;
 
 import android.content.Intent;
 import android.os.Bundle;

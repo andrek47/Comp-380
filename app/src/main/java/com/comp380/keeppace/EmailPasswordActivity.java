@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.keeppace;
+package com.comp380.keeppace;
 
 //import android.app.Activity;
 import android.content.Intent;
@@ -47,7 +47,8 @@ public class EmailPasswordActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_email_password); // connects to the XML layout
+        setContentView(R.layout.activity_create_user);
+        // connects to the XML layout
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
