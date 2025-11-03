@@ -33,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
        // Button goToHomePage = findViewById(R.id.goToHomePage);
         Button goToAuth = findViewById(R.id.goToAuth);
 
+        goToAuth.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, EmailPasswordActivity.class);
+            startActivity(intent);
+        });
+
         /*goToHomePage.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this,HomePage.class);
             startActivity(intent);
@@ -62,10 +67,7 @@ public class MainActivity extends AppCompatActivity {
         signUpText.setMovementMethod(LinkMovementMethod.getInstance());
         signUpText.setHighlightColor(Color.TRANSPARENT);
 
-        goToAuth.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, EmailPasswordActivity.class);
-            startActivity(intent);
-        });
+
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 

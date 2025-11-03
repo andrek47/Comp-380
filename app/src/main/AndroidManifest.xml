@@ -15,7 +15,7 @@
 
 
         <activity
-            android:name="com.comp380.keeppace.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,17 +24,20 @@
         </activity>
 
         <activity
-            android:name="com.comp380.keeppace.HomePage"
+            android:name=".HomePage"
             android:exported="true"/>
 
         <activity
-            android:name="com.comp380.keeppace.EmailPasswordActivity"
+            android:name=".EmailPasswordActivity"
             android:exported="true"/>
 
         <activity
-            android:name="com.comp380.keeppace.UserCreation"
+            android:name=".UserCreation"
             android:exported="true"/>
 
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true"/>
 
 
 

@@ -47,7 +47,7 @@ public class EmailPasswordActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_user);
+        setContentView(R.layout.activity_email_password);
         // connects to the XML layout
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);

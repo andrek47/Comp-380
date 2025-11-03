@@ -3,6 +3,8 @@ package com.comp380.keeppace;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,20 +31,20 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_user);
         Log.d("Diag", "setContentView done");                    // 2) prove we loaded THIS layout
 
-        android.widget.Button btn = findViewById(R.id.googleSignInButton);
+        Button btn = findViewById(R.id.googleSignInButton);
 
         if (btn == null) {
             // 3) If this shows, the layout you set does NOT contain that ID
-            android.widget.Toast.makeText(this, "googleSignInButton NOT FOUND in layout", android.widget.Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "googleSignInButton NOT FOUND in layout", Toast.LENGTH_LONG).show();
             Log.e("Diag", "googleSignInButton not found. Are you using the right layout?");
             return;
         } else {
-            android.widget.Toast.makeText(this, "Button found. Attaching listener…", android.widget.Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Button found. Attaching listener…", Toast.LENGTH_SHORT).show();
             Log.d("Diag", "Button found. Attaching listener.");
         }
 
         btn.setOnClickListener(v -> {
-            android.widget.Toast.makeText(this, "Google button clicked!", android.widget.Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Google button clicked!", Toast.LENGTH_SHORT).show();
             Log.d("Diag", "Click fired. Starting sign-in…");
             startSignIn();  // your existing method
         });
