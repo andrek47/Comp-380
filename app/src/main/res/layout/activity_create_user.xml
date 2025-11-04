@@ -49,14 +49,14 @@
         android:text="Create Account" />
 
     <!-- Google Sign-In -->
-    <!--<com.google.android.material.button.MaterialButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/googleSignInButton"
         android:text="Create Account With Google"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="24dp"
         android:textAllCaps="false"
-        android:backgroundTint="@color/material_dynamic_primary30"/> -->
+        android:backgroundTint="@color/material_dynamic_primary30"/>
     <ImageView
         android:id="@+id/googleLogo"
         android:layout_width="wrap_content"

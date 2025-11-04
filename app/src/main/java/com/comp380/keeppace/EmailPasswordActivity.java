@@ -58,7 +58,10 @@ public class EmailPasswordActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
         Button backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> finish());
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(EmailPasswordActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
 
         EditText emailField = findViewById(R.id.fieldEmail);
         EditText passwordField = findViewById(R.id.fieldPassword);
@@ -67,6 +70,10 @@ public class EmailPasswordActivity extends AppCompatActivity {
         emailSignInButton.setOnClickListener(view -> {
             String email = emailField.getText().toString().trim();
             String password = passwordField.getText().toString().trim();
+            if (email.isEmpty() || password.isEmpty()){
+                Toast.makeText(EmailPasswordActivity.this, "Please fill in Email and Password", Toast.LENGTH_SHORT).show();
+                return;
+            }
             signIn(email, password);
         });
     }
