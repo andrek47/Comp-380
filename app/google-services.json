@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "807820447963-o92td966cudikn2pckcdl8ueojt20aim.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.comp380.keeppace",
+            "certificate_hash": "5eacde35b4b78a0b454b3891ef1d39fc4fa2b6c6"
+          }
+        },
+        {
           "client_id": "807820447963-p9dmkqtjmoj9bh523ne5a3jjturi6gtk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

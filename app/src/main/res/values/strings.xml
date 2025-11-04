@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Keep Pace</string>
+    <string name="google_sign_in">Sign in with Google</string>
 </resources>

@@ -44,6 +44,10 @@ dependencies {
 
     implementation("androidx.appcompat:appcompat:1.7.0")
 
+    // Also add the dependencies for the Credential Manager libraries and specify their versions
+    implementation("androidx.credentials:credentials:1.3.0")
+    implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
 
 }
 
@@ -57,6 +61,10 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_16
+        targetCompatibility = JavaVersion.VERSION_16
     }
 }
 

@@ -1,69 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center_horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="24dp"
     tools:context="com.comp380.keeppace.EmailPasswordActivity">
 
     <!-- Title -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Create User"
-        android:textSize="24sp"
-        android:layout_marginTop="20dp"/>
+        android:textSize="24sp" />
 
     <!-- Email -->
     <EditText
         android:id="@+id/fieldEmail"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="155dp"
         android:autofillHints="emailAddress"
+        android:hint="Email"
         android:importantForAutofill="yes"
-        android:layout_marginTop="155dp"/>
+        android:inputType="textEmailAddress" />
 
     <!-- Password -->
     <EditText
         android:id="@+id/fieldPassword"
-        android:hint="Password"
-        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:autofillHints="password"
+        android:hint="Password"
         android:importantForAutofill="yes"
-        android:layout_marginTop="10dp" />
+        android:inputType="textPassword" />
 
     <!-- Create account -->
     <Button
         android:id="@+id/emailCreateAccountButton"
-        android:text="Create Account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:backgroundTint="@color/material_dynamic_primary30" />
+        android:backgroundTint="@color/material_dynamic_primary30"
+        android:text="Create Account" />
 
     <!-- Google Sign-In -->
-    <com.google.android.material.button.MaterialButton
+    <!--<com.google.android.material.button.MaterialButton
         android:id="@+id/googleSignInButton"
         android:text="Create Account With Google"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="24dp"
         android:textAllCaps="false"
-        android:backgroundTint="@color/material_dynamic_primary30" />
+        android:backgroundTint="@color/material_dynamic_primary30"/> -->
+    <ImageView
+        android:id="@+id/googleLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:padding="12dp"
+        android:src="@drawable/ic_google_logo" />
 
     <!-- Back -->
     <Button
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Back"
-        android:backgroundTint="@color/material_dynamic_primary30" />
+        android:layout_marginTop="2dp"
+        android:backgroundTint="@color/material_dynamic_primary30"
+        android:text="Back" />
 
 </LinearLayout>
