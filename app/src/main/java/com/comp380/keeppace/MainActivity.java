@@ -20,7 +20,10 @@ import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,9 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);        setContentView(R.layout.activity_main); // connects to the XML layout
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main); // connects to the XML layout
 
-       // Button goToHomePage = findViewById(R.id.goToHomePage);
+        // Button goToHomePage = findViewById(R.id.goToHomePage);
         Button goToAuth = findViewById(R.id.goToAuth);
 
         goToAuth.setOnClickListener(view -> {
@@ -68,24 +72,16 @@ public class MainActivity extends AppCompatActivity {
         signUpText.setHighlightColor(Color.TRANSPARENT);
 
 
-
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-       // Button testButton = findViewById(R.id.testButton);
+        // Button testButton = findViewById(R.id.testButton);
         //testButton.setOnClickListener(v -> {
-          //  Bundle bundle = new Bundle();
-            //bundle.putString(FirebaseAnalytics.Param.METHOD, "button_click");
-            //firebaseAnalytics.logEvent("test_firebase_event", bundle);
-            //Toast.makeText(MainActivity.this, "Firebase event logged!", Toast.LENGTH_SHORT).show();
-       //});
+        //  Bundle bundle = new Bundle();
+        //bundle.putString(FirebaseAnalytics.Param.METHOD, "button_click");
+        //firebaseAnalytics.logEvent("test_firebase_event", bundle);
+        //Toast.makeText(MainActivity.this, "Firebase event logged!", Toast.LENGTH_SHORT).show();
+        //});
         FirebaseAuth.getInstance().signOut();
-
-        boolean loggedIn = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser() != null;
-        Intent next = new Intent(this, loggedIn ? HomePage.class : LoginActivity.class);
-        next.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(next);
-        finish();
-
 
     }
 }

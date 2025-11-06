@@ -35,13 +35,13 @@
             android:name=".UserCreation"
             android:exported="true"/>
 
-       <activity
+       <!--<activity
             android:name=".LoginActivity"
-            android:exported="true"/>
-
-       <!-- <activity
-            android:name=".GoogleSignInActivity"
             android:exported="true"/> -->
+
+       <!--<activity
+            android:name=".GoogleSignInActivity"
+            android:exported="true"/>-->
 
 
     </application>

@@ -5,18 +5,28 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-
-
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Arrays;
+import java.util.List;
+
 
 public class UserCreation extends AppCompatActivity {
+
+    private static final int RC_SIGN_IN = 123;
 
     private static final String TAG = "CreateUser";
 
@@ -33,7 +43,11 @@ public class UserCreation extends AppCompatActivity {
         EditText fieldPassword = findViewById(R.id.fieldPassword);
 
         Button backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> finish());
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
 
         Button emailCreateAccountButton = findViewById(R.id.emailCreateAccountButton);
         emailCreateAccountButton.setOnClickListener(view -> {
@@ -45,10 +59,28 @@ public class UserCreation extends AppCompatActivity {
             }
             createAccount(email, password);
         });
+
+        ImageView btn = findViewById(R.id.googleLogo);
+
+        if (btn == null) {
+            // 3) If this shows, the layout you set does NOT contain that ID
+            Toast.makeText(this, "googleSignInButton NOT FOUND in layout", Toast.LENGTH_LONG).show();
+            Log.e("Diag", "googleSignInButton not found. Are you using the right layout?");
+            return;
+        } else {
+            Toast.makeText(this, "Button found. Attaching listener…", Toast.LENGTH_SHORT).show();
+            Log.d("Diag", "Button found. Attaching listener.");
+        }
+
+        btn.setOnClickListener(v -> {
+            Toast.makeText(this, "Google button clicked!", Toast.LENGTH_SHORT).show();
+            Log.d("Diag", "Click fired. Starting sign-in…");
+            startSignIn();  // your existing method
+        });
     }
 
     // [START on_start_check_user]
-   /* @Override
+   @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
@@ -56,7 +88,7 @@ public class UserCreation extends AppCompatActivity {
         if (currentUser != null) {
             reload();
         }
-    }*/
+    }
 
     // [END on_start_check_user]
     private void createAccount(String email, String password) {
@@ -89,7 +121,7 @@ public class UserCreation extends AppCompatActivity {
         // [END create_user_with_email]
 
 
-    /* private void sendEmailVerification() {
+    private void sendEmailVerification() {
         // Send verification email
         // [START send_email_verification]
         final FirebaseUser user = mAuth.getCurrentUser();
@@ -102,9 +134,47 @@ public class UserCreation extends AppCompatActivity {
                 });
         // [END send_email_verification]
     }
-*/
+    private void startSignIn() {
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.GoogleBuilder().build()
+        );
+
+        Intent signInIntent = AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(providers)
+                .setIsSmartLockEnabled(false)
+                .build();
+
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+            if (resultCode == RESULT_OK) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                Log.d("Login", "Signed in as " + (user != null ? user.getEmail() : "null"));
+                // TODO: navigate to your next screen
+                Intent intent = new Intent(UserCreation.this, HomePage.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            } else {
+                if (response != null && response.getError() != null) {
+                    Log.w("Login", "Sign-in error", response.getError());
+                } else {
+                    Log.w("Login", "Sign-in cancelled");
+                }
+            }
+        }
+    }
 
 
+    private void reload(){
+
+    }
     private void updateUI(FirebaseUser user) {
         if(user != null){
             Toast.makeText(this, "Welcome" + user.getEmail(), Toast.LENGTH_SHORT).show();
