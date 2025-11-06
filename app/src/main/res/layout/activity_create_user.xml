@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="24dp"
-    tools:context="com.comp380.keeppace.EmailPasswordActivity">
+    android:padding="24dp">
 
     <!-- Title -->
     <TextView

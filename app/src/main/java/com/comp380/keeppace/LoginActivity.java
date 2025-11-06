@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -31,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_user);
         Log.d("Diag", "setContentView done");                    // 2) prove we loaded THIS layout
 
-        Button btn = findViewById(R.id.googleSignInButton);
+        ImageView btn = findViewById(R.id.googleLogo);
 
         if (btn == null) {
             // 3) If this shows, the layout you set does NOT contain that ID
