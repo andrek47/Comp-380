@@ -75,6 +75,10 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 Log.d("Login", "Signed in as " + (user != null ? user.getEmail() : "null"));
                 // TODO: navigate to your next screen
+                Intent intent = new Intent(LoginActivity.this, HomePage.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
             } else {
                 if (response != null && response.getError() != null) {
                     Log.w("Login", "Sign-in error", response.getError());

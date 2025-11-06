@@ -80,6 +80,12 @@ public class MainActivity extends AppCompatActivity {
        //});
         FirebaseAuth.getInstance().signOut();
 
+        boolean loggedIn = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser() != null;
+        Intent next = new Intent(this, loggedIn ? HomePage.class : LoginActivity.class);
+        next.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(next);
+        finish();
+
 
     }
 }
