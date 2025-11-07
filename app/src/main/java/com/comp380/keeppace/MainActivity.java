@@ -42,10 +42,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        /*goToHomePage.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this,HomePage.class);
-            startActivity(intent);
-        } );*/
 
         TextView signUpText = findViewById(R.id.signUpText);
 
@@ -74,13 +70,6 @@ public class MainActivity extends AppCompatActivity {
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        // Button testButton = findViewById(R.id.testButton);
-        //testButton.setOnClickListener(v -> {
-        //  Bundle bundle = new Bundle();
-        //bundle.putString(FirebaseAnalytics.Param.METHOD, "button_click");
-        //firebaseAnalytics.logEvent("test_firebase_event", bundle);
-        //Toast.makeText(MainActivity.this, "Firebase event logged!", Toast.LENGTH_SHORT).show();
-        //});
         FirebaseAuth.getInstance().signOut();
 
     }
