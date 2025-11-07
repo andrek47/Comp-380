@@ -14,18 +14,21 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Create User"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        tools:ignore="HardcodedText" />
 
     <!-- Email -->
     <EditText
         android:id="@+id/fieldEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="155dp"
+        android:layout_marginTop="250dp"
         android:autofillHints="emailAddress"
         android:hint="Email"
         android:importantForAutofill="yes"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp"
+        tools:ignore="HardcodedText" />
 
     <!-- Password -->
     <EditText
@@ -36,37 +39,43 @@
         android:autofillHints="password"
         android:hint="Password"
         android:importantForAutofill="yes"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        tools:ignore="HardcodedText" />
 
     <!-- Create account -->
     <Button
         android:id="@+id/emailCreateAccountButton"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:backgroundTint="@color/material_dynamic_primary30"
-        android:text="Create Account" />
+        app:backgroundTint="@color/black"
+        android:text="Create Account"
+
+        tools:ignore="HardcodedText" />
 
     <!-- Google Sign-In -->
-    <com.google.android.material.button.MaterialButton
+    <!-- <com.google.android.material.button.MaterialButton
         android:id="@+id/googleSignInButton"
         android:text="Create Account With Google"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="24dp"
         android:textAllCaps="false"
-        android:backgroundTint="@color/material_dynamic_primary30"/>
+        android:backgroundTint="@color/material_dynamic_primary30"/> -->
     <ImageView
         android:id="@+id/googleLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="5dp"
         android:clickable="true"
+        android:contentDescription="TODO"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackgroundBorderless"
         android:padding="12dp"
-        android:src="@drawable/ic_google_logo" />
+        android:src="@drawable/ic_google_logo"
+        tools:ignore="ContentDescription,HardcodedText" />
 
     <!-- Back -->
     <Button
@@ -74,7 +83,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:backgroundTint="@color/material_dynamic_primary30"
-        android:text="Back" />
+        app:backgroundTint="@color/black"
+        android:text="Back"
+        tools:ignore="HardcodedText" />
 
 </LinearLayout>

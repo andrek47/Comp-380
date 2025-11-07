@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,12 +54,21 @@ public class HomePage extends AppCompatActivity {
 
        Button backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
+            signOut();
             Toast.makeText(this, "You have signed out.", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(HomePage.this, EmailPasswordActivity.class);
-            startActivity(intent);
         });
 
 
+    }
+    private void signOut() {
+        AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener(task -> {
+                    // Sign-out completed from both Firebase and Google
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                });
     }
 }

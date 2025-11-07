@@ -5,11 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".ProfilePage">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textSize="30sp"
+        android:gravity="top|center"
+        android:layout_marginTop="50dp"
         android:text="Profile Page" />
 
 </FrameLayout>
