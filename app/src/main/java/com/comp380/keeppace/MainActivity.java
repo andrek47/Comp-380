@@ -20,9 +20,9 @@ import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-import com.google.firebase.auth.AuthCredential;
+//import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GoogleAuthProvider;
+//import com.google.firebase.auth.GoogleAuthProvider;
 
 
 public class MainActivity extends AppCompatActivity {
