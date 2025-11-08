@@ -22,9 +22,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -76,6 +78,10 @@ public class EmailPasswordActivity extends AppCompatActivity {
             }
             signIn(email, password);
         });
+
+        ImageView btn = findViewById(R.id.googleLogo);
+
+        btn.setOnClickListener(view -> AuthHelper.googleSignIn(this));
     }
 
     // [START on_start_check_user]
@@ -124,6 +130,11 @@ public class EmailPasswordActivity extends AppCompatActivity {
                     }
                 });
         // [END sign_in_with_email]
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        AuthHelper.signInHelper(this, requestCode, resultCode, data);
     }
 
     private void reload() { }

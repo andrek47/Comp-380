@@ -3,6 +3,7 @@ package com.comp380.keeppace;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -72,11 +73,7 @@ public class UserCreation extends AppCompatActivity {
             Log.d("Diag", "Button found. Attaching listener.");
         }
 
-        btn.setOnClickListener(v -> {
-            Toast.makeText(this, "Google button clicked!", Toast.LENGTH_SHORT).show();
-            Log.d("Diag", "Click fired. Starting sign-in…");
-            startSignIn();  // your existing method
-        });
+        btn.setOnClickListener(v -> AuthHelper.googleSignIn(this));
     }
 
     // [START on_start_check_user]
@@ -120,7 +117,10 @@ public class UserCreation extends AppCompatActivity {
     }
         // [END create_user_with_email]
 
-
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        AuthHelper.signInHelper(this, requestCode, resultCode, data);
+    }
     private void sendEmailVerification() {
         // Send verification email
         // [START send_email_verification]
@@ -132,46 +132,7 @@ public class UserCreation extends AppCompatActivity {
                         // Email sent
                     }
                 });
-        // [END send_email_verification]
     }
-    private void startSignIn() {
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.GoogleBuilder().build()
-        );
-
-        Intent signInIntent = AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .setIsSmartLockEnabled(false)
-                .build();
-
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-            if (resultCode == RESULT_OK) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Log.d("Login", "Signed in as " + (user != null ? user.getEmail() : "null"));
-                // TODO: navigate to your next screen
-                Intent intent = new Intent(UserCreation.this, HomePage.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
-            } else {
-                if (response != null && response.getError() != null) {
-                    Log.w("Login", "Sign-in error", response.getError());
-                } else {
-                    Log.w("Login", "Sign-in cancelled");
-                }
-            }
-        }
-    }
-
-
     private void reload(){
 
     }

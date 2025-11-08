@@ -16,32 +16,45 @@ import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
 import android.widget.TextView;
-//import android.widget.Toast;
+import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 //import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.FirebaseAuth;
 //import com.google.firebase.auth.GoogleAuthProvider;
-
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAnalytics firebaseAnalytics;
+
+    private FirebaseUser mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // connects to the XML layout
 
-        // Button goToHomePage = findViewById(R.id.goToHomePage);
+        mAuth = FirebaseAuth.getInstance().getCurrentUser();
+
+        FirebaseUser currentUser = mAuth;
+
+        //Login Button
         Button goToAuth = findViewById(R.id.goToAuth);
-
-        goToAuth.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, EmailPasswordActivity.class);
-            startActivity(intent);
-        });
-
+        if(currentUser == null) {
+            goToAuth.setOnClickListener(view -> {
+                Intent intent = new Intent(this, EmailPasswordActivity.class);
+                Toast.makeText(this, "Welcome to KeepPace", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            });
+        }else { //Redirects to HomePage if current user is still logged in
+            goToAuth.setOnClickListener(view -> {
+                Intent intent = new Intent(this, HomePage.class);
+                Toast.makeText(this, "Welcome Back", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            });
+        }
 
         TextView signUpText = findViewById(R.id.signUpText);
 
@@ -70,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        FirebaseAuth.getInstance().signOut();
+        //FirebaseAuth.getInstance().signOut();
 
     }
 }

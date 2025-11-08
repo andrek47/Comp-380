@@ -34,11 +34,12 @@
         android:layout_height="550dp" />
 
     <Button
-        android:id="@+id/backButton"
+        android:id="@+id/signOutButton"
         android:text="Sign Out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="100sp"
         android:layout_marginTop="160dp"
         app:backgroundTint="@color/black"/>
+
 </LinearLayout>

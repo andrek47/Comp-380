@@ -52,8 +52,8 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-       Button backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> {
+       Button signOutButton = findViewById(R.id.signOutButton);
+        signOutButton.setOnClickListener(v -> {
             signOut();
             Toast.makeText(this, "You have signed out.", Toast.LENGTH_SHORT).show();
         });
