@@ -1,22 +1,12 @@
 package com.comp380.keeppace;
 
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.Toast;
-import android.widget.TextView;
-import android.content.Intent;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class Leaderboard extends Fragment {
 
