@@ -3,6 +3,7 @@ package com.comp380.keeppace;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import android.widget.TextView;
 
 import android.view.LayoutInflater;
 import android.view.View;
