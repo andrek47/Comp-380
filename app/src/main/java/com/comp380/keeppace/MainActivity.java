@@ -46,13 +46,13 @@ public class MainActivity extends AppCompatActivity {
         Button goToAuth = findViewById(R.id.goToAuth);
         if(currentUser == null) {
             goToAuth.setOnClickListener(view -> {
-                Intent intent = new Intent(this, EmailPasswordActivity.class);
+                Intent intent = new Intent(this, LoginActivity.class);
                 Toast.makeText(this, "Welcome to KeepPace", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             });
         }
 
-        TextView signUpText = findViewById(R.id.signUpText);
+        /*TextView signUpText = findViewById(R.id.signUpText);
 
         String text = "New To Keep Pace? Sign Up";
         SpannableString spannable = new SpannableString(text);
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         ClickableSpan signUpClick = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                Intent intent = new Intent(MainActivity.this, UserCreation.class);
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         };
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         signUpText.setText(spannable);
         signUpText.setMovementMethod(LinkMovementMethod.getInstance());
-        signUpText.setHighlightColor(Color.TRANSPARENT);
+        signUpText.setHighlightColor(Color.TRANSPARENT);*/
 
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);

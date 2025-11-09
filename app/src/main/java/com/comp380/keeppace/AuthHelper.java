@@ -108,7 +108,7 @@ public class AuthHelper {
         activity.finish();
     }
 
-    public static void googleSignIn(Activity activity){
+    public static Intent googleSignIn(Activity activity){
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.GoogleBuilder().build()
         );
@@ -120,6 +120,7 @@ public class AuthHelper {
                 .build();
 
         activity.startActivityForResult(intent, RC_SIGN_IN);
+        return intent;
     }
 
     public static void signInHelper (Activity activity, int requestCode, int resultCode, @Nullable Intent data){

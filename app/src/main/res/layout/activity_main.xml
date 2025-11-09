@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
-        android:text="Go to Firebase Login"
+        android:text="Start"
         app:backgroundTint="@color/black"/>
 
     <!--<Button
@@ -33,11 +33,11 @@
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/material_dynamic_primary30"/> -->
     
-    <TextView
+    <!--<TextView
         android:id="@+id/signUpText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New To Keep Pace? Sign Up"/>
+        android:text="New To Keep Pace? Sign Up"/> -->
 
 
 

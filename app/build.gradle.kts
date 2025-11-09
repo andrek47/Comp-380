@@ -55,6 +55,10 @@ dependencies {
 
     //Facebook
     implementation("com.facebook.android:facebook-android-sdk:latest.release")
+    implementation(libs.annotation)
+    implementation(libs.constraintlayout)
+    implementation(libs.lifecycle.livedata.ktx)
+    implementation(libs.lifecycle.viewmodel.ktx)
 
 }
 
@@ -72,6 +76,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_16
         targetCompatibility = JavaVersion.VERSION_16
+    }
+    buildFeatures {
+        viewBinding = true
     }
 }
 

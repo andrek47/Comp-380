@@ -3,15 +3,19 @@ package com.comp380.keeppace;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.fragment.app.Fragment;
 
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,9 +23,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-
-public class UserCreation extends AppCompatActivity {
-
+public class SignUpFragment extends Fragment {
     private static final int RC_SIGN_IN = 123;
 
     private static final String TAG = "CreateUser";
@@ -29,54 +31,61 @@ public class UserCreation extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_signup);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                                @Nullable ViewGroup container,
+                                @Nullable Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_signup, container, false);
 
         mAuth = FirebaseAuth.getInstance();
 
-        EditText fieldEmail = findViewById(R.id.fieldEmail);
-        EditText fieldPassword = findViewById(R.id.fieldPassword);
+        EditText fieldEmail = view.findViewById(R.id.fieldEmail);
+        EditText fieldPassword = view.findViewById(R.id.fieldPassword);
 
-        Button backButton = findViewById(R.id.backButton);
+        Button backButton = view.findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
-            finish();
+            getActivity().finish();
         });
 
-        Button emailCreateAccountButton = findViewById(R.id.emailCreateAccountButton);
-        emailCreateAccountButton.setOnClickListener(view -> {
+        Button emailCreateAccountButton = view.findViewById(R.id.emailCreateAccountButton);
+        emailCreateAccountButton.setOnClickListener(v -> {
             String email = fieldEmail.getText().toString().trim();
             String password = fieldPassword.getText().toString().trim();
             if (email.isEmpty() || password.isEmpty()){
-                Toast.makeText(UserCreation.this, "Please fill in Email and Password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Please fill in Email and Password", Toast.LENGTH_SHORT).show();
                 return;
             }
             createAccount(email, password);
         });
 
-        ImageView btn = findViewById(R.id.googleLogo);
+        ImageView btn = view.findViewById(R.id.googleLogo);
 
         if (btn == null) {
             // 3) If this shows, the layout you set does NOT contain that ID
-            Toast.makeText(this, "googleSignInButton NOT FOUND in layout", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "googleSignInButton NOT FOUND in layout", Toast.LENGTH_LONG).show();
             Log.e("Diag", "googleSignInButton not found. Are you using the right layout?");
-            return;
+            return view;
         } else {
-            Toast.makeText(this, "Button found. Attaching listener…", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Button found. Attaching listener…", Toast.LENGTH_SHORT).show();
             Log.d("Diag", "Button found. Attaching listener.");
         }
 
-        btn.setOnClickListener(v -> AuthHelper.googleSignIn(this));
+        btn.setOnClickListener(v -> {
+            Intent intent = AuthHelper.googleSignIn(requireActivity());
+            signInLauncher.launch(intent);
+        });
 
-        LoginButton fbBtn = findViewById(R.id.fbLoginButton);
+        LoginButton fbBtn = view.findViewById(R.id.fbLoginButton);
 
-        AuthHelper.facebookSignIn(this, fbBtn);
+        AuthHelper.facebookSignIn(requireActivity(), fbBtn);
+
+        return view;
     }
 
     // [START on_start_check_user]
-   @Override
+    @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
@@ -90,7 +99,7 @@ public class UserCreation extends AppCompatActivity {
     private void createAccount(String email, String password) {
         // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(UserCreation.this, task -> {
+                .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success");
@@ -99,14 +108,14 @@ public class UserCreation extends AppCompatActivity {
 
                         if (user != null) {
                             user.sendEmailVerification();
-                            Intent intent = new Intent(UserCreation.this, HomePage.class);
+                            Intent intent = new Intent(getContext(), HomePage.class);
                             startActivity(intent);
-                            finish();
+                            getActivity().finish();
                         }
                     } else {
                         // If sign up fails, display a message to the user.
                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                        Toast.makeText(UserCreation.this, "User creation failed.",
+                        Toast.makeText(getContext(), "User creation failed.",
                                 Toast.LENGTH_SHORT).show();
                         updateUI(null);
                     }
@@ -114,19 +123,25 @@ public class UserCreation extends AppCompatActivity {
 
 
     }
-        // [END create_user_with_email]
+    // [END create_user_with_email]
 
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        AuthHelper.onActivityResult(requestCode, resultCode, data);
-        AuthHelper.signInHelper(this, requestCode, resultCode, data);
-    }
+    private final ActivityResultLauncher<Intent> signInLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        int resultCode = result.getResultCode();
+                        Intent data = result.getData();
+
+                        // Handle the result here
+                        AuthHelper.onActivityResult(RC_SIGN_IN, resultCode, data);
+                        AuthHelper.signInHelper(requireActivity(), RC_SIGN_IN, resultCode, data);
+                    });
     private void sendEmailVerification() {
         // Send verification email
         // [START send_email_verification]
         final FirebaseUser user = mAuth.getCurrentUser();
         user.sendEmailVerification()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         // Email sent
@@ -138,9 +153,10 @@ public class UserCreation extends AppCompatActivity {
     }
     private void updateUI(FirebaseUser user) {
         if(user != null){
-            Toast.makeText(this, "Welcome" + user.getEmail(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Welcome" + user.getEmail(), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Try again.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Try again.", Toast.LENGTH_SHORT).show();
         }
     }
 }
+
