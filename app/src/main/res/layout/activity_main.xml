@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/keep_pace_logot" />
+        android:src="@drawable/keep_pace_logov31" />
 
     <Button
         android:id="@+id/goToAuth"

@@ -18,30 +18,49 @@
         tools:ignore="HardcodedText" />
 
     <!-- Email -->
-    <EditText
-        android:id="@+id/fieldEmail"
-        android:layout_width="match_parent"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="250dp"
-        android:autofillHints="emailAddress"
-        android:hint="Email"
-        android:importantForAutofill="yes"
-        android:inputType="textEmailAddress"
-        android:minHeight="48dp"
-        tools:ignore="HardcodedText" />
+        android:layout_marginTop="300dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/keep_pace_teal"
+        app:boxCornerRadiusTopStart="25dp"
+        app:boxCornerRadiusTopEnd="25dp"
+        app:boxCornerRadiusBottomStart="25dp"
+        app:boxCornerRadiusBottomEnd="25dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fieldEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:gravity="center"
+            android:inputType="textEmailAddress"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <!-- Password -->
-    <EditText
-        android:id="@+id/fieldPassword"
-        android:layout_width="match_parent"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:autofillHints="password"
-        android:hint="Password"
-        android:importantForAutofill="yes"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-        tools:ignore="HardcodedText" />
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/keep_pace_teal"
+        app:boxCornerRadiusTopStart="25dp"
+        app:boxCornerRadiusTopEnd="25dp"
+        app:boxCornerRadiusBottomStart="25dp"
+        app:boxCornerRadiusBottomEnd="25dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fieldPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:gravity="center"
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <!-- Create account -->
     <Button

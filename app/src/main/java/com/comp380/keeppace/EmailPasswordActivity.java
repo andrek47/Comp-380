@@ -31,6 +31,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
@@ -65,8 +67,11 @@ public class EmailPasswordActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        EditText emailField = findViewById(R.id.fieldEmail);
-        EditText passwordField = findViewById(R.id.fieldPassword);
+
+        TextInputEditText emailField = findViewById(R.id.fieldEmail);
+        TextInputEditText passwordField = findViewById(R.id.fieldPassword);
+
+
 
         Button emailSignInButton = findViewById(R.id.emailSignInButton);
         emailSignInButton.setOnClickListener(view -> {

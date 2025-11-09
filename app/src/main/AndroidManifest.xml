@@ -7,9 +7,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/keep_pace_logot"
+        android:icon="@drawable/keep_pace_logov31"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/keep_pace_logot"
+        android:roundIcon="@drawable/keep_pace_round_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.KeepPace"
         android:enableOnBackInvokedCallback="true">
