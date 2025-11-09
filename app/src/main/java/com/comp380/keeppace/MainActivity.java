@@ -48,12 +48,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Welcome to KeepPace", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             });
-        }else { //Redirects to HomePage if current user is still logged in
-            goToAuth.setOnClickListener(view -> {
-                Intent intent = new Intent(this, HomePage.class);
-                Toast.makeText(this, "Welcome Back", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-            });
         }
 
         TextView signUpText = findViewById(R.id.signUpText);
@@ -85,5 +79,17 @@ public class MainActivity extends AppCompatActivity {
 
         //FirebaseAuth.getInstance().signOut();
 
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            startActivity(new Intent(this, HomePage.class));
+            finish();
+        }
     }
 }

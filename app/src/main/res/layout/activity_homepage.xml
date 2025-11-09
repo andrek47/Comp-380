@@ -41,5 +41,4 @@
         android:layout_marginRight="100sp"
         android:layout_marginTop="160dp"
         app:backgroundTint="@color/black"/>
-
 </LinearLayout>

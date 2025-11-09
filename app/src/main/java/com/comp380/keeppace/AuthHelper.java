@@ -31,24 +31,24 @@ public class AuthHelper {
         activity.startActivityForResult(intent, RC_SIGN_IN);
     }
 
-public static void signInHelper (Activity activity, int requestCode, int resultCode, @Nullable Intent data){
-    if (requestCode == RC_SIGN_IN) {
-        IdpResponse response = IdpResponse.fromResultIntent(data);
-        if (resultCode == Activity.RESULT_OK) {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            Log.d("Login", "Signed in as " + (user != null ? user.getEmail() : "null"));
-            // TODO: navigate to your next screen
-            Intent intent = new Intent(activity, HomePage.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            activity.startActivity(intent);
-            activity.finish();
-        } else {
-            if (response != null && response.getError() != null) {
-                Log.w("Login", "Sign-in error", response.getError());
+    public static void signInHelper (Activity activity, int requestCode, int resultCode, @Nullable Intent data){
+        if (requestCode == RC_SIGN_IN) {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+            if (resultCode == Activity.RESULT_OK) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                Log.d("Login", "Signed in as " + (user != null ? user.getEmail() : "null"));
+                // TODO: navigate to your next screen
+                Intent intent = new Intent(activity, HomePage.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                activity.startActivity(intent);
+                activity.finish();
             } else {
-                Log.w("Login", "Sign-in cancelled");
+                if (response != null && response.getError() != null) {
+                    Log.w("Login", "Sign-in error", response.getError());
+                } else {
+                    Log.w("Login", "Sign-in cancelled");
+                }
             }
         }
-    }
     }
 }
