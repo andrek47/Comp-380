@@ -82,9 +82,20 @@ public class AuthHelper {
                                 Log.w(TAG, "User is null");
                             }
                         }else {
+                            if(task.getException() instanceof com.google.firebase.auth.FirebaseAuthUserCollisionException) {
+                                Log.w(TAG, "Email already linked with another provider, redirecting to Google Sign-In");
+
+                                Toast.makeText(activity, "Redirecting to Google Sign In", Toast.LENGTH_SHORT).show();
+
+                                googleSignIn(activity);
+
+                            }else {
+                                Toast.makeText(activity,
+                                        "Authentication failed: " + (task.getException() != null ? task.getException().getMessage() : ""),
+                                        Toast.LENGTH_SHORT).show();
+                            }
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(activity, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -140,7 +151,7 @@ public class AuthHelper {
 
                     Log.d(TAG, "User signed out from Firebase, Google, and Facebook");
 
-                    // ⚙️ Wait for Firebase to fully clear the session
+                    // Wait for Firebase to fully clear the session
                     FirebaseAuth.getInstance().addAuthStateListener(auth -> {
                         if (auth.getCurrentUser() == null) {
                             Intent intent = new Intent(activity, MainActivity.class);
