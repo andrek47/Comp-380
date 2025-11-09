@@ -12,7 +12,6 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 
 public class HomePage extends AppCompatActivity {
@@ -20,7 +19,6 @@ public class HomePage extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager2 viewPager2;
     ViewPagerAdapter viewPagerAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +28,8 @@ public class HomePage extends AppCompatActivity {
         viewPager2 = findViewById(R.id.viewPager);
         viewPagerAdapter = new ViewPagerAdapter(this);
         viewPager2.setAdapter(viewPagerAdapter);
-
-
-
+        viewPager2.setCurrentItem(1, false);
+        tabLayout.selectTab(tabLayout.getTabAt(1));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -59,21 +56,11 @@ public class HomePage extends AppCompatActivity {
 
        Button signOutButton = findViewById(R.id.signOutButton);
         signOutButton.setOnClickListener(v -> {
-            signOut();
+            AuthHelper.signOut(this);
             Toast.makeText(this, "You have signed out.", Toast.LENGTH_SHORT).show();
         });
 
 
     }
-    private void signOut() {
-        AuthUI.getInstance()
-                .signOut(this)
-                .addOnCompleteListener(task -> {
-                    // Sign-out completed from both Firebase and Google
-                    Intent intent = new Intent(this, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish();
-                });
-    }
+
 }

@@ -5,4 +5,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="sign_up_with_google">Sign up with Google</string>
+    <string name="profile_page">Profile Page</string>
+    <string name="facebook_app_id">2626031264421552</string>
+    <string name="fb_login_protocol_scheme">2626031264421552</string>
+    <string name="facebook_client_token">3fd58cfb0594c6c0ddf917614fcf942f</string> />
+
 </resources>

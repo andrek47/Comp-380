@@ -79,9 +79,7 @@
         app:elevation="0dp"
         app:rippleColor="?attr/colorControlHighlight" /> -->
 
-
-
-
+    <!--Google Sign Up Button -->
     <ImageView
         android:id="@+id/googleLogo"
         android:layout_width="wrap_content"
@@ -96,12 +94,21 @@
         android:src="@drawable/android_dark_rd_su"
         tools:ignore="ContentDescription,HardcodedText" />
 
+    <!--Facebook Sign Up Button -->
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/fbLoginButton"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="1dp"
+        android:text="Continue with Facebook" />
+
     <!-- Back -->
     <Button
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="175dp"
         app:backgroundTint="#131314"
         android:text="Back"
         tools:ignore="HardcodedText" />

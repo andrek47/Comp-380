@@ -12,6 +12,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
@@ -29,16 +30,17 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAnalytics firebaseAnalytics;
 
-    private FirebaseUser mAuth;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // connects to the XML layout
 
-        mAuth = FirebaseAuth.getInstance().getCurrentUser();
 
-        FirebaseUser currentUser = mAuth;
+        mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
 
         //Login Button
         Button goToAuth = findViewById(R.id.goToAuth);
@@ -82,14 +84,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user != null) {
+            Log.d("MainActivity", "User logged in: " + user.getEmail());
             startActivity(new Intent(this, HomePage.class));
             finish();
+        } else {
+            Log.d("MainActivity", "No user logged in — stay on main screen");
         }
     }
+
 }

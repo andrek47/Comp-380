@@ -14,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.facebook.FacebookSdk;
+import com.facebook.login.widget.LoginButton;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -74,6 +76,10 @@ public class UserCreation extends AppCompatActivity {
         }
 
         btn.setOnClickListener(v -> AuthHelper.googleSignIn(this));
+
+        LoginButton fbBtn = findViewById(R.id.fbLoginButton);
+
+        AuthHelper.facebookSignIn(this, fbBtn);
     }
 
     // [START on_start_check_user]
@@ -119,6 +125,7 @@ public class UserCreation extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        AuthHelper.onActivityResult(requestCode, resultCode, data);
         AuthHelper.signInHelper(this, requestCode, resultCode, data);
     }
     private void sendEmailVerification() {

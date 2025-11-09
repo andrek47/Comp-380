@@ -7,19 +7,19 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="30sp"
-        android:gravity="top|center"
+        android:layout_height="56dp"
         android:layout_marginTop="50dp"
-        android:text="Profile Page" />
+        android:gravity="top|center"
+        android:text="@string/profile_page"
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/username"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="25sp"
-        android:gravity="top|center"
+        android:layout_height="146dp"
         android:layout_marginTop="200dp"
-        android:textStyle="bold"/>
+        android:gravity="top|center"
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
 </FrameLayout>
