@@ -17,14 +17,19 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //tabs for fragments
         setContentView(R.layout.activity_login);
         tabLayout = findViewById(R.id.tabLayout);
         viewPager2 = findViewById(R.id.viewPager);
         viewPagerAdapter = new LoginAdapter(this);
         viewPager2.setAdapter(viewPagerAdapter);
 
+        //back button to go back to previous page
         Button backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(view -> finish());
+
+        //more tab stuff
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

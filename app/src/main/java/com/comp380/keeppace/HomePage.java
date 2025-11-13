@@ -23,6 +23,7 @@ public class HomePage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //set up the tabs for fragments
         setContentView(R.layout.activity_homepage);
         tabLayout = findViewById(R.id.tabLayout);
         viewPager2 = findViewById(R.id.viewPager);
@@ -54,6 +55,7 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
+        //Sign Out button
        Button signOutButton = findViewById(R.id.signOutButton);
         signOutButton.setOnClickListener(v -> {
             AuthHelper.signOut(this);

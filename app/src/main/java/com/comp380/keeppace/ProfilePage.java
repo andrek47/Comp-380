@@ -15,8 +15,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class ProfilePage extends Fragment {
 
-    private TextView username;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,23 +24,22 @@ public class ProfilePage extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         View view = inflater.inflate(R.layout.fragment_profile_page, container, false);
-        username = view.findViewById(R.id.username);
+        //make an username out of email
+        TextView username = view.findViewById(R.id.username);
 
+        //check if there is an user
         if (user != null) {
+            String email = user.getEmail(); // get user email
+            String name = email != null ? email.split("@")[0] : "Guest"; // split the email to only get till @
 
-            String name = user.getDisplayName();
-            String email = user.getEmail();
-
-            username.setText(email != null ? email : "Email: (none");
+            username.setText(name.substring(0,1).toUpperCase() + name.substring(1)); //set the username
         } else {
-            username.setText("Email: Not signed in");
+            username.setText("Email: Not signed in"); //not logged in
         }
 
-        // Inflate the layout for this fragment
         return view;
     }
 }

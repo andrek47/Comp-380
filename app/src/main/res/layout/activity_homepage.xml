@@ -8,19 +8,23 @@
     android:layout_height="match_parent"
     tools:context=".HomePage">
 
+    <!-- Tablayouts -->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- Leaderboard tab -->
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Leaderboard" />
+        <!-- MyRun tab -->
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="My Run" />
+        <!-- Profile Page tab -->
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,14 +35,15 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="550dp" />
+        android:layout_height="699dp" />
 
+    <!-- Sign Out button -->
     <Button
         android:id="@+id/signOutButton"
         android:text="Sign Out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="100sp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="16dp"
         app:backgroundTint="@color/black"/>
 </LinearLayout>

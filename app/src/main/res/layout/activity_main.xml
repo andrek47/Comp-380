@@ -14,10 +14,11 @@
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
         android:adjustViewBounds="true"
+        android:contentDescription="KeepPacelogo"
         android:src="@drawable/keep_pace_logov31" />
 
     <Button
-        android:id="@+id/goToAuth"
+        android:id="@+id/startButton"
         android:layout_width="197dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

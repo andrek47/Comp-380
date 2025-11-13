@@ -17,7 +17,7 @@
 package com.comp380.keeppace;
 
 //import android.app.Activity;
-import android.content.Intent;
+/*import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -145,4 +145,4 @@ public class EmailPasswordActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
 
     }
-}
+}*/
