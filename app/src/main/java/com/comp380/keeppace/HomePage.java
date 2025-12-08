@@ -3,66 +3,68 @@ package com.comp380.keeppace;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomePage extends AppCompatActivity {
-
-    TabLayout tabLayout;
-    ViewPager2 viewPager2;
+    BottomNavigationView bottomNav;
+    ViewPager2 viewPager;
     ViewPagerAdapter viewPagerAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //set up the tabs for fragments
         setContentView(R.layout.activity_homepage);
-        tabLayout = findViewById(R.id.tabLayout);
-        viewPager2 = findViewById(R.id.viewPager);
+
+        // ViewPager
+        viewPager = findViewById(R.id.viewPager);
         viewPagerAdapter = new ViewPagerAdapter(this);
-        viewPager2.setAdapter(viewPagerAdapter);
-        viewPager2.setCurrentItem(1, false);
-        tabLayout.selectTab(tabLayout.getTabAt(1));
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager2.setCurrentItem(tab.getPosition());
+        viewPager.setAdapter(viewPagerAdapter);
+
+        // BottomNavigationView
+        bottomNav = findViewById(R.id.bottomNav);
+
+        // When tapping bottom nav switch pages
+        bottomNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_leaderboard) {
+                viewPager.setCurrentItem(0);
+                return true;
+            } else if (itemId == R.id.nav_myrun) {
+                viewPager.setCurrentItem(1);
+                return true;
+            } else if (itemId == R.id.nav_profile) {
+                viewPager.setCurrentItem(2);
+                return true;
             }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
+            return false;
         });
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+
+        // When swiping update bottom nav highlight
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                tabLayout.getTabAt(position).select();
+                switch (position) {
+                    case 0:
+                        bottomNav.setSelectedItemId(R.id.nav_leaderboard);
+                        break;
+                    case 1:
+                        bottomNav.setSelectedItemId(R.id.nav_myrun);
+                        break;
+                    case 2:
+                        bottomNav.setSelectedItemId(R.id.nav_profile);
+                        break;
+                }
             }
         });
 
-        //Sign Out button
-       Button signOutButton = findViewById(R.id.signOutButton);
+        // Sign Out button
+        Button signOutButton = findViewById(R.id.signOutButton);
         signOutButton.setOnClickListener(v -> {
             AuthHelper.signOut(this);
             Toast.makeText(this, "You have signed out.", Toast.LENGTH_SHORT).show();
         });
-
-
     }
-
 }
