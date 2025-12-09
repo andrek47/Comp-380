@@ -24,53 +24,64 @@
             android:scaleType="fitCenter"
             android:src="@drawable/podium" />
 
-        <!-- Podium text labels overlay -->
+        <!-- Podium labels over the image -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- 1st place -->
+            <!-- 1st place (center, highest) -->
             <TextView
                 android:id="@+id/txt_first"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:textSize="18sp"
+                android:textColor="#000000"
+                android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintVertical_bias="0.3" />
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:maxWidth="140dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="56dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5" />
 
-            <!-- 2nd place -->
+            <!-- 2nd place (left, a bit lower) -->
             <TextView
                 android:id="@+id/txt_second"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:textSize="16sp"
+                android:textColor="#000000"
+                android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintHorizontal_bias="0.2"
-                app:layout_constraintVertical_bias="0.45" />
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:maxWidth="90dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="32dp" />
 
-            <!-- 3rd place -->
+            <!-- 3rd place (right, a bit lower) -->
             <TextView
                 android:id="@+id/txt_third"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:textSize="16sp"
+                android:textColor="#000000"
+                android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintHorizontal_bias="0.8"
-                app:layout_constraintVertical_bias="0.45" />
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:maxWidth="90dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="45dp" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </FrameLayout>
+
 
     <!--  Static Leaderboard Table  -->
     <TableLayout
