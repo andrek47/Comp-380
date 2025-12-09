@@ -3,11 +3,17 @@ package com.comp380.keeppace;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HomePage extends AppCompatActivity {
     BottomNavigationView bottomNav;
@@ -62,10 +68,38 @@ public class HomePage extends AppCompatActivity {
         });
 
         // Sign Out button
-        Button signOutButton = findViewById(R.id.signOutButton);
+        /*Button signOutButton = findViewById(R.id.signOutButton);
         signOutButton.setOnClickListener(v -> {
             AuthHelper.signOut(this);
             Toast.makeText(this, "You have signed out.", Toast.LENGTH_SHORT).show();
+        });*/
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(HomePage.this, v);
+            popup.getMenuInflater().inflate(R.menu.fab_menu, popup.getMenu());
+
+            popup.setOnMenuItemClickListener(item -> {
+                int id = item.getItemId();
+
+
+                if (id == R.id.menu_settings) {
+                    startActivity(new Intent(this, MySettingsActivity.class));
+                    return true;
+                }
+
+                if (id == R.id.menu_signout) {
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                    return true;
+                }
+
+                return false;
+            });
+            popup.show();
         });
     }
 }

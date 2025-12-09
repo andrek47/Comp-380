@@ -122,14 +122,6 @@
         android:layout_marginTop="1dp"
         android:text="Continue with Facebook" />
 
-    <!-- Back -->
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="175dp"
-        app:backgroundTint="#131314"
-        android:text="Back"
-        tools:ignore="HardcodedText" />
+
 
 </LinearLayout>

@@ -55,12 +55,6 @@ public class SignUpFragment extends Fragment {
         EditText fieldEmail = view.findViewById(R.id.fieldEmail);
         EditText fieldPassword = view.findViewById(R.id.fieldPassword);
 
-        Button backButton = view.findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            startActivity(intent);
-            getActivity().finish();
-        });
 
         Button emailCreateAccountButton = view.findViewById(R.id.emailCreateAccountButton);
         emailCreateAccountButton.setOnClickListener(v -> {
