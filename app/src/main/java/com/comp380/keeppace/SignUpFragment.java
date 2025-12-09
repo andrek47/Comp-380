@@ -23,12 +23,23 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
 public class SignUpFragment extends Fragment {
     private static final int RC_SIGN_IN = 123;
 
     private static final String TAG = "CreateUser";
 
     private FirebaseAuth mAuth;
+
+    private FirebaseFirestore db;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -38,6 +49,8 @@ public class SignUpFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_signup, container, false);
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
 
         EditText fieldEmail = view.findViewById(R.id.fieldEmail);
         EditText fieldPassword = view.findViewById(R.id.fieldPassword);
@@ -88,21 +101,24 @@ public class SignUpFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
+            createUserDocumentIfNeeded(currentUser);
             reload();
         }
     }
 
+
     // [END on_start_check_user]
     private void createAccount(String email, String password) {
-        // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success");
+
+                        // Make sure Firestore has a user doc for this account
+                        UserFirestoreHelper.ensureUserDocumentExists();
+
                         FirebaseUser user = mAuth.getCurrentUser();
                         updateUI(user);
 
@@ -112,17 +128,16 @@ public class SignUpFragment extends Fragment {
                             startActivity(intent);
                             getActivity().finish();
                         }
-                    } else {
-                        // If sign up fails, display a message to the user.
+
+                     } else {
                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
                         Toast.makeText(getContext(), "User creation failed.",
                                 Toast.LENGTH_SHORT).show();
                         updateUI(null);
                     }
                 });
-
-
     }
+
     // [END create_user_with_email]
 
     private final ActivityResultLauncher<Intent> signInLauncher =
@@ -166,5 +181,42 @@ public class SignUpFragment extends Fragment {
             Toast.makeText(getContext(), "Try again.", Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void createUserDocumentIfNeeded(FirebaseUser firebaseUser) {
+
+        Log.d(TAG, "createUserDocumentIfNeeded called");
+        if (firebaseUser == null) return;
+
+        String uid = firebaseUser.getUid();
+        String email = firebaseUser.getEmail();
+
+        DocumentReference userDocRef = db.collection("users").document(uid);
+
+        userDocRef.get()
+                .addOnSuccessListener(snapshot -> {
+                    if (!snapshot.exists()) {
+                        // Document doesn't exist yet: create it with initial data
+                        Map<String, Object> userData = new HashMap<>();
+                        userData.put("displayName", email != null ? email : "Unknown"); // later you can use a username field
+                        userData.put("email", email);
+                        userData.put("score", 0); // starting value for leaderboard
+                        userData.put("createdAt", FieldValue.serverTimestamp());
+
+                        userDocRef.set(userData)
+                                .addOnSuccessListener(aVoid ->
+                                        Log.d(TAG, "User document created for uid: " + uid)
+                                )
+                                .addOnFailureListener(e ->
+                                        Log.w(TAG, "Failed to create user document", e)
+                                );
+                    } else {
+                        Log.d(TAG, "User document already exists for uid: " + uid);
+                    }
+                })
+                .addOnFailureListener(e ->
+                        Log.w(TAG, "Failed to check user document", e)
+                );
+    }
+
 }
 

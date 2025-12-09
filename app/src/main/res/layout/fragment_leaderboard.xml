@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Podium Image  -->
+    <!-- Podium container -->
     <FrameLayout
         android:id="@+id/podium_frame"
         android:layout_width="match_parent"
@@ -15,8 +15,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp">
 
-
-
+        <!-- Podium image -->
         <ImageView
             android:id="@+id/podium_image"
             android:layout_width="match_parent"
@@ -25,58 +24,53 @@
             android:scaleType="fitCenter"
             android:src="@drawable/podium" />
 
+        <!-- Podium text labels overlay -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- 1st place  -->
+            <!-- 1st place -->
             <TextView
                 android:id="@+id/txt_first"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:shadowRadius="4"
-                android:text=""
-                android:textColor="#000000"
+                android:textColor="#000"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintVertical_bias="0.3" />
 
-            <!-- 2nd place  -->
+            <!-- 2nd place -->
             <TextView
                 android:id="@+id/txt_second"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:shadowRadius="4"
-                android:text=""
-                android:textColor="#000000"
+                android:textColor="#000"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="0.22"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.48" />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintVertical_bias="0.45" />
 
-            <!-- 3rd place  -->
+            <!-- 3rd place -->
+            <TextView
+                android:id="@+id/txt_third"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_bias="0.8"
+                app:layout_constraintVertical_bias="0.45" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/txt_third"
-            android:layout_width="298dp"
-            android:layout_height="8dp"
-            android:shadowRadius="4"
-            android:text=""
-            android:textColor="#CD7F32"
-            android:textSize="16sp"
-            android:textStyle="bold" />
     </FrameLayout>
-
 
     <!--  Static Leaderboard Table  -->
     <TableLayout
@@ -227,5 +221,14 @@
                 android:gravity="center"/>
         </TableRow>
     </TableLayout>
+
+    <Button
+        android:id="@+id/buttonRefreshLeaderboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Refresh"
+        android:padding="8dp"
+        android:layout_marginBottom="12dp"/>
+
 
 </LinearLayout>

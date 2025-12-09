@@ -60,6 +60,10 @@ dependencies {
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.lifecycle.viewmodel.ktx)
 
+    //Firestore
+    implementation ("com.google.firebase:firebase-firestore")
+
+
 }
 
 android {

@@ -1,60 +1,150 @@
 package com.comp380.keeppace;
 
 import android.os.Bundle;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import android.widget.TextView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Button;
+
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
+import java.util.List;
 
 public class Leaderboard extends Fragment {
 
+    private static final String TAG = "Leaderboard";
+
+    private FirebaseFirestore db;
+
+    // Podium
+    private TextView txtFirst;
+    private TextView txtSecond;
+    private TextView txtThird;
+
+    // Table rows for top 5
+    private TextView[] nameViews;
+    private TextView[] scoreViews;
+    private TextView[] rankViews;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = FirebaseFirestore.getInstance();
     }
 
     @Override
-    public View onCreateView( LayoutInflater inflater,
-                             ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_leaderboard, container, false);
 
-        // Example: manually setting text in the table
-        TextView name1 = view.findViewById(R.id.name1);
-        TextView score1 = view.findViewById(R.id.score1);
-        TextView rank1 = view.findViewById(R.id.rank1);
+        // Podium TextViews
+        txtFirst = view.findViewById(R.id.txt_first);
+        txtSecond = view.findViewById(R.id.txt_second);
+        txtThird = view.findViewById(R.id.txt_third);
 
-        TextView name2 = view.findViewById(R.id.name2);
-        TextView score2 = view.findViewById(R.id.score2);
-        TextView rank2 = view.findViewById(R.id.rank2);
+        // Table rows (we’ll use arrays to simplify updating)
+        nameViews = new TextView[] {
+                view.findViewById(R.id.name1),
+                view.findViewById(R.id.name2),
+                view.findViewById(R.id.name3),
+                view.findViewById(R.id.name4),
+                view.findViewById(R.id.name5)
+        };
 
-        // Set text manually for testing
-        name1.setText("Andre");
-        score1.setText("1000000");
-        rank1.setText("1");
+        scoreViews = new TextView[] {
+                view.findViewById(R.id.score1),
+                view.findViewById(R.id.score2),
+                view.findViewById(R.id.score3),
+                view.findViewById(R.id.score4),
+                view.findViewById(R.id.score5)
+        };
 
-        name2.setText("test");
-        score2.setText("0");
-        rank2.setText("2");
+        rankViews = new TextView[] {
+                view.findViewById(R.id.rank1),
+                view.findViewById(R.id.rank2),
+                view.findViewById(R.id.rank3),
+                view.findViewById(R.id.rank4),
+                view.findViewById(R.id.rank5)
+        };
 
+        Button refreshButton = view.findViewById(R.id.buttonRefreshLeaderboard);
+        refreshButton.setOnClickListener(v -> loadLeaderboard());
 
-
-
-        TextView txtFirst = view.findViewById(R.id.txt_first);
-        TextView txtSecond = view.findViewById(R.id.txt_second);
-        TextView txtThird = view.findViewById(R.id.txt_third);
-
-        txtFirst.setText("Andre");
-        txtSecond.setText("Test");
-
-
-
+        // Load leaderboard data from Firestore
+        loadLeaderboard();
 
         return view;
+    }
+
+    private void loadLeaderboard() {
+        db.collection("users")
+                .orderBy("score", Query.Direction.DESCENDING)
+                .limit(5)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    List<DocumentSnapshot> docs = querySnapshot.getDocuments();
+
+                    // Clear everything first
+                    clearLeaderboardViews();
+
+                    for (int i = 0; i < docs.size() && i < 5; i++) {
+                        DocumentSnapshot doc = docs.get(i);
+
+                        String name = doc.getString("displayName");
+                        if (name == null || name.isEmpty()) {
+                            name = doc.getString("email");
+                        }
+                        if (name == null) {
+                            name = "Unknown";
+                        }
+
+                        Long scoreLong = doc.getLong("score");
+                        long score = scoreLong != null ? scoreLong : 0;
+
+                        // Rank is simply index + 1
+                        int rank = i + 1;
+
+                        // Update table row
+                        nameViews[i].setText(name);
+                        scoreViews[i].setText(String.valueOf(score));
+                        rankViews[i].setText(String.valueOf(rank));
+
+                        // Update podium text for top 3
+                        if (rank == 1) {
+                            txtFirst.setText(name);
+                        } else if (rank == 2) {
+                            txtSecond.setText(name);
+                        } else if (rank == 3) {
+                            txtThird.setText(name);
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.w(TAG, "Failed to load leaderboard", e);
+                });
+    }
+
+    private void clearLeaderboardViews() {
+        // Clear podium
+        txtFirst.setText("");
+        txtSecond.setText("");
+        txtThird.setText("");
+
+        // Clear table rows
+        for (int i = 0; i < nameViews.length; i++) {
+            nameViews[i].setText("");
+            scoreViews[i].setText("");
+            rankViews[i].setText("");
+        }
     }
 }

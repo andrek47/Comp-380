@@ -24,6 +24,13 @@
         android:scaleType="centerCrop"
         android:src="@drawable/mapexample" />
 
+    <Button
+        android:id="@+id/buttonIncrementScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add 1 Point"
+        android:layout_marginTop="20dp"/>
+
 
 
 

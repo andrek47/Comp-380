@@ -17,6 +17,7 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
+        UserFirestoreHelper.ensureUserDocumentExists();
 
         // ViewPager
         viewPager = findViewById(R.id.viewPager);
