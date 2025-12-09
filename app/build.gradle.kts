@@ -63,6 +63,9 @@ dependencies {
     //Firestore
     implementation ("com.google.firebase:firebase-firestore")
 
+    implementation("androidx.preference:preference-ktx:1.2.0")
+    implementation(libs.preference)
+
 
 }
 

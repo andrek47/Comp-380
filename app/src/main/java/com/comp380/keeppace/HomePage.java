@@ -83,10 +83,10 @@ public class HomePage extends AppCompatActivity {
                 int id = item.getItemId();
 
 
-                /*if (id == R.id.menu_settings) {
-                    startActivity(new Intent(this, SettingsPage.class));
+                if (id == R.id.menu_settings) {
+                    startActivity(new Intent(this, MySettingsActivity.class));
                     return true;
-                }*/
+                }
 
                 if (id == R.id.menu_signout) {
                     FirebaseAuth.getInstance().signOut();
