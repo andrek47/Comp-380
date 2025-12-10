@@ -5,14 +5,10 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class HomePage extends AppCompatActivity {
@@ -32,6 +28,9 @@ public class HomePage extends AppCompatActivity {
 
         // BottomNavigationView
         bottomNav = findViewById(R.id.bottomNav);
+
+        // Set the first launch page as My Run
+        viewPager.setCurrentItem(1, false);
 
         // When tapping bottom nav switch pages
         bottomNav.setOnItemSelectedListener(item -> {
@@ -67,13 +66,7 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-        // Sign Out button
-        /*Button signOutButton = findViewById(R.id.signOutButton);
-        signOutButton.setOnClickListener(v -> {
-            AuthHelper.signOut(this);
-            Toast.makeText(this, "You have signed out.", Toast.LENGTH_SHORT).show();
-        });*/
-
+        //Floating Action button
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(HomePage.this, v);
