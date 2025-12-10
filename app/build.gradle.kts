@@ -30,6 +30,7 @@ dependencies {
     // https://firebase.google.com/docs/android/setup#available-libraries
 
     implementation("com.google.android.material:material:1.12.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
     // Import the BoM for the Firebase platform
     implementation(platform("com.google.firebase:firebase-bom:34.5.0"))
@@ -38,7 +39,7 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation("com.google.firebase:firebase-auth")
 
-
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
     implementation("com.firebaseui:firebase-ui-auth:8.0.2")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
@@ -62,16 +63,17 @@ dependencies {
 
     //Firestore
     implementation ("com.google.firebase:firebase-firestore")
+    implementation(libs.activity)
 
     implementation("androidx.preference:preference-ktx:1.2.0")
-    implementation(libs.preference)
+
 
 
 }
 
 android {
     namespace = "com.comp380.keeppace"  // <-- use your app's package
-    compileSdk = 34                     // 34 is widely supported; you can raise later
+    compileSdk = 36                     // 34 is widely supported; you can raise later
 
     defaultConfig {
         applicationId = "com.comp380.keeppace"

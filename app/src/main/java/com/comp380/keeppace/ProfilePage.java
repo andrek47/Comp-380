@@ -12,8 +12,22 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+
 
 public class ProfilePage extends Fragment {
+
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+
+    private TextView textScoreValue;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,6 +44,19 @@ public class ProfilePage extends Fragment {
         //make an username out of email
         TextView username = view.findViewById(R.id.username);
 
+
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+
+
+        textScoreValue = view.findViewById(R.id.textScoreValue);
+
+        loadUserScore();
+
+        Button refreshButton = view.findViewById(R.id.buttonRefreshScore);
+        refreshButton.setOnClickListener(v -> loadUserScore());
+
+
         //check if there is an user
         if (user != null) {
             String email = user.getEmail(); // get user email
@@ -42,4 +69,33 @@ public class ProfilePage extends Fragment {
 
         return view;
     }
+
+    private void loadUserScore() {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user == null) {
+            textScoreValue.setText("N/A");
+            return;
+        }
+
+        String uid = user.getUid();
+
+        db.collection("users").document(uid)
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    if (snapshot.exists()) {
+                        Long score = snapshot.getLong("score");
+                        if (score == null) score = 0L;
+
+                        textScoreValue.setText(String.valueOf(score));
+                    } else {
+                        textScoreValue.setText("0");
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    textScoreValue.setText("0");
+                    Log.w("Profile", "Failed to load user score", e);
+                });
+    }
+
 }

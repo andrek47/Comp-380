@@ -1,25 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="top|center_horizontal"
     tools:context=".ProfilePage">
 
+    <!-- Page Title -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginTop="50dp"
-        android:gravity="top|center"
-        android:text="@string/profile_page"
-        android:textSize="30sp" />
+        android:id="@+id/profileTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Profile Page"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:gravity="center"/>
 
+    <!-- Username -->
     <TextView
         android:id="@+id/username"
-        android:layout_width="match_parent"
-        android:layout_height="146dp"
-        android:layout_marginTop="200dp"
-        android:gravity="top|center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textSize="25sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginTop="40dp"
+        android:gravity="center" />
 
-</FrameLayout>
+    <!-- Score Row -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="40dp">
+
+        <TextView
+            android:id="@+id/textScoreLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Score:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginEnd="12dp"/>
+
+        <TextView
+            android:id="@+id/textScoreValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/buttonRefreshScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Refresh"
+            android:layout_marginStart="20dp"
+            android:padding="8dp"/>
+    </LinearLayout>
+
+</LinearLayout>
