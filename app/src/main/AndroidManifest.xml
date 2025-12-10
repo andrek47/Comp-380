@@ -40,10 +40,9 @@
             android:exported="true" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true" />
-        <!-- <activity
-            android:name=".UserCreation"
-            android:exported="true" /> -->
+            android:exported="true"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

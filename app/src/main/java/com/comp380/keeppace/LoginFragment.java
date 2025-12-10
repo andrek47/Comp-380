@@ -64,11 +64,6 @@ public class LoginFragment extends Fragment {
         // Initialize Firestore
         db = FirebaseFirestore.getInstance();
 
-        Button backButton = view.findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(requireActivity(), MainActivity.class);
-            startActivity(intent);
-        });
 
 
         TextInputEditText emailField = view.findViewById(R.id.fieldEmail);
