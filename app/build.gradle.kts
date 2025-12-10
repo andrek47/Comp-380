@@ -67,6 +67,8 @@ dependencies {
 
     implementation("androidx.preference:preference-ktx:1.2.0")
 
+    implementation("org.osmdroid:osmdroid-android:6.1.18")
+
 
 
 }
@@ -89,7 +91,13 @@ android {
     buildFeatures {
         viewBinding = true
     }
+     packaging {
+        jniLibs {
+            pickFirsts += "lib/**/libc++_shared.so"
+        }
+        resources {
+            pickFirsts += "META-INF/INDEX.LIST"
+            pickFirsts += "META-INF/io.netty.versions.properties"
+        }
+    }
 }
-
-
-

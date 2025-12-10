@@ -1,57 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rootLayout"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center_horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Existing button to increment score -->
-    <Button
-        android:id="@+id/buttonIncrementScore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Increment Score" />
-
-    <!-- Show GPS info -->
-    <TextView
-        android:id="@+id/textLat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Lat: -"
-        android:textSize="16sp"
-        android:layout_marginTop="24dp" />
+    <org.osmdroid.views.MapView
+        android:id="@+id/map"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
 
     <TextView
-        android:id="@+id/textLng"
+        android:id="@+id/textTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lng: -"
-        android:textSize="16sp" />
+        android:layout_below="@id/map"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Time: 00:00"
+        android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/textSpeed"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Speed (m/s): -"
-        android:textSize="16sp" />
+        android:layout_alignParentBottom="true"
+        android:background="#80FFFFFF"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <!-- NEW: status of pace -->
-    <TextView
-        android:id="@+id/textStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Status: -"
-        android:textSize="16sp"
-        android:layout_marginTop="8dp" />
+        <!-- Existing button to increment score -->
+        <Button
+            android:id="@+id/buttonIncrementScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Increment Score" />
 
-    <!-- Button to start/stop GPS updates -->
-    <Button
-        android:id="@+id/buttonStartLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start Location"
-        android:layout_marginTop="24dp" />
+        <!-- Show GPS info -->
+        <TextView
+            android:id="@+id/textLat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Lat: -"
+            android:textSize="16sp" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/textLng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lng: -"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Speed (m/s): -"
+            android:textSize="16sp" />
+
+        <!-- NEW: status of pace -->
+        <TextView
+            android:id="@+id/textStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Status: -"
+            android:textSize="16sp" />
+
+        <!-- Button to start/stop/pause GPS updates -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonStartLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start Location" />
+
+            <Button
+                android:id="@+id/buttonPause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Pause" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

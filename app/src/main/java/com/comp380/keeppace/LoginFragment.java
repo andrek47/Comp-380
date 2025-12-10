@@ -144,9 +144,9 @@ public class LoginFragment extends Fragment {
                             Toast.makeText(requireActivity(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
-                            }
                         }
-                    });
+                    }
+                });
         // [END sign_in_with_email]
     }
 

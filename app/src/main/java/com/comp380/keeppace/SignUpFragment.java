@@ -43,8 +43,8 @@ public class SignUpFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                                @Nullable ViewGroup container,
-                                @Nullable Bundle savedInstanceState) {
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_signup, container, false);
 
@@ -123,7 +123,7 @@ public class SignUpFragment extends Fragment {
                             getActivity().finish();
                         }
 
-                     } else {
+                    } else {
                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
                         Toast.makeText(getContext(), "User creation failed.",
                                 Toast.LENGTH_SHORT).show();
@@ -213,4 +213,3 @@ public class SignUpFragment extends Fragment {
     }
 
 }
-
