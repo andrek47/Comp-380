@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.PopupMenu;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -68,31 +71,69 @@ public class HomePage extends AppCompatActivity {
 
         //Floating Action button
         FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fabAction2 = findViewById(R.id.fabAction2);
+        FloatingActionButton fabAction3 = findViewById(R.id.fabAction3);
+
+        boolean[] isOpen = {false};
         fab.setOnClickListener(v -> {
-            PopupMenu popup = new PopupMenu(HomePage.this, v);
-            popup.getMenuInflater().inflate(R.menu.fab_menu, popup.getMenu());
+            if (!isOpen[0]) {
+                // Open speed-dial
+                showFab(fabAction2, 1);
+                showFab(fabAction3, 2);
 
-            popup.setOnMenuItemClickListener(item -> {
-                int id = item.getItemId();
+                fab.animate().rotation(45f).setDuration(200); // turn into X
+                isOpen[0] = true;
+
+            } else {
+                // Close speed-dial
+                hideFab(fabAction2);
+                hideFab(fabAction3);
 
 
-                if (id == R.id.menu_settings) {
-                    startActivity(new Intent(this, MySettingsActivity.class));
-                    return true;
-                }
+                fab.animate().rotation(0f).setDuration(200);
+                isOpen[0] = false;
+            }
+        });
+        fabAction2.setOnClickListener(v -> {
+            startActivity(new Intent(this, MySettingsActivity.class));
 
-                if (id == R.id.menu_signout) {
-                    FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(this, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish();
-                    return true;
-                }
-
-                return false;
-            });
-            popup.show();
+        });
+        fabAction3.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
         });
     }
-}
+    private void showFab(FloatingActionButton miniFab, int index) {
+        miniFab.setVisibility(View.VISIBLE);
+        miniFab.setAlpha(0f);
+        miniFab.setScaleX(0f);
+        miniFab.setScaleY(0f);
+        miniFab.setTranslationX(-55);
+
+        miniFab.animate()
+                .translationY(index * 180)   // distance between fabs
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(200)
+                .start();
+    }
+
+    private void hideFab(FloatingActionButton miniFab) {
+        miniFab.animate()
+                .translationY(0)
+                .alpha(0f)
+                .scaleX(0f)
+                .scaleY(0f)
+                .setDuration(200)
+                .withEndAction(() -> miniFab.setVisibility(View.GONE))
+                .start();
+    }
+
+    }
+
+
+
