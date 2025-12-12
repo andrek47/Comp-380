@@ -17,4 +17,9 @@
         app:title="Send feedback"
         app:summary="Report technical issues or suggest new features" />
 
+    <Preference
+        android:key="delete_account"
+        android:title="Delete Account"
+        android:summary="Permanently remove your account and data"/>
+
 </androidx.preference.PreferenceScreen>
