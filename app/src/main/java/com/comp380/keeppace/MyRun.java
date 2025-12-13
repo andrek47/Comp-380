@@ -6,21 +6,21 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -32,10 +32,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -55,8 +51,8 @@ public class MyRun extends Fragment {
     private static final String TAG = "MyRun";
     private static final int REQUEST_LOCATION_PERMISSION = 100;
 
-    // Pace Logic Variables
-    private double targetSpeedMps = 2.68; // Default approx 10 min/mile
+    // Pace Logic
+    private double targetSpeedMps = 2.68; // Default ~10 min/mile
     private static final double SPEED_TOLERANCE_MPS = 0.5;
 
     // Firebase
@@ -77,13 +73,11 @@ public class MyRun extends Fragment {
     private TextView textTimer;
     private EditText inputTargetPace;
     private View rootLayout;
-    private Button buttonStartLocation;
-    private Button buttonPause;
+    private Button buttonStartLocation, buttonPause;
     private MapView map;
 
+    // Map Overlays
     private Polyline pathOverlay;
-
-    // OSMDroid location overlay
     private MyLocationNewOverlay myLocationOverlay;
 
     // Timer
@@ -92,7 +86,7 @@ public class MyRun extends Fragment {
     private long startTime = 0L;
     private long elapsedTime = 0L;
 
-    // Tracking Variables
+    // Distance Tracking (Missing from your older code)
     private double totalDistanceMeters = 0.0;
     private Location lastLocation = null;
 
@@ -116,7 +110,7 @@ public class MyRun extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        // REQUIRED for OSMDroid
+        // 1. OSMDroid Config
         Configuration.getInstance().setUserAgentValue(requireContext().getPackageName());
         Configuration.getInstance().load(
                 requireContext(),
@@ -130,7 +124,7 @@ public class MyRun extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext());
 
-        // UI Binding
+        // 2. Bind UI (FIXED: Changed ID to inputTargetPace)
         textLat = view.findViewById(R.id.textLat);
         textLng = view.findViewById(R.id.textLng);
         textSpeed = view.findViewById(R.id.textSpeed);
@@ -142,6 +136,7 @@ public class MyRun extends Fragment {
         buttonPause = view.findViewById(R.id.buttonPause);
         Button buttonIncrementScore = view.findViewById(R.id.buttonIncrementScore);
         map = view.findViewById(R.id.map);
+        inputTargetPace = view.findViewById(R.id.inputTargetPace); // Matches XML ID
 
         // IMPORTANT: prevent osmdroid from fully destroying the map when off-screen (ViewPager2 fix)
         if (map != null) {
@@ -162,16 +157,10 @@ public class MyRun extends Fragment {
             map.getOverlays().add(myLocationOverlay);
         }
 
-        // Initial UI Text
-        textLat.setText("Lat: -");
-        textLng.setText("Lng: -");
-        textSpeed.setText("Speed (m/s): -");
-        textStatus.setText("Status: Ready");
-        textTimer.setText("00:00");
+        resetUI();
 
-        timerHandler = new Handler();
+        timerHandler = new Handler(Looper.getMainLooper());
         buttonPause.setVisibility(View.GONE);
-
         buttonIncrementScore.setOnClickListener(v -> incrementUserScore());
 
         locationCallback = new LocationCallback() {
@@ -186,6 +175,8 @@ public class MyRun extends Fragment {
 
         buttonStartLocation.setOnClickListener(v -> {
             if (!isUpdatingLocation) {
+                // Handle the Pace Input
+                updateTargetPace();
                 checkPermissionAndStartLocation();
             } else {
                 stopLocationUpdates();
@@ -200,29 +191,31 @@ public class MyRun extends Fragment {
         return view;
     }
 
-    private void incrementUserScore() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user == null) return;
-        db.collection("users").document(user.getUid())
-                .update("score", FieldValue.increment(1));
+    // --- LIFECYCLE FIX (Prevents Map Disappearing) ---
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (map != null) map.onResume();
     }
 
-    private void checkPermissionAndStartLocation() {
-        if (ContextCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (map != null) map.onPause();
+    }
 
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_LOCATION_PERMISSION);
-
-        } else {
-            startLocationUpdates();
+    @Override
+    public void onDestroyView() {
+        // Stop location to save battery
+        if (fusedLocationClient != null && locationCallback != null) {
+            fusedLocationClient.removeLocationUpdates(locationCallback);
         }
+        // FIX: DO NOT CALL map.onDetach() HERE. It breaks the app.
+        // Just let onPause handle it.
+        super.onDestroyView();
     }
 
-    private void updateTargetPace() {
-        String input = inputTargetPace.getText().toString();
-        if (input.isEmpty()) return;
+    // --- PERMISSIONS & UPDATES ---
 
         try {
             double minutesPerMile = Double.parseDouble(input);
@@ -248,13 +241,15 @@ public class MyRun extends Fragment {
                 .build();
 
         try {
-            fusedLocationClient.requestLocationUpdates(
-                    request, locationCallback, requireActivity().getMainLooper());
-
+            fusedLocationClient.requestLocationUpdates(request, locationCallback, Looper.getMainLooper());
             isUpdatingLocation = true;
+
+            // UI Updates
             buttonStartLocation.setText("Stop Run");
+            buttonStartLocation.setBackgroundColor(Color.RED);
             buttonPause.setVisibility(View.VISIBLE);
             buttonPause.setText("Pause");
+            if(inputTargetPace != null) inputTargetPace.setEnabled(false);
 
             if (map != null) {
                 pathOverlay = new Polyline();
@@ -263,8 +258,13 @@ public class MyRun extends Fragment {
                 map.getOverlays().add(pathOverlay);
             }
 
-            startTime = System.currentTimeMillis() - elapsedTime;
+            // Reset Data
+            totalDistanceMeters = 0.0;
+            elapsedTime = 0L;
+            lastLocation = null;
+            startTime = System.currentTimeMillis();
 
+            // Timer Logic
             timerRunnable = new Runnable() {
                 @Override
                 public void run() {
@@ -279,7 +279,9 @@ public class MyRun extends Fragment {
             };
             timerHandler.post(timerRunnable);
 
-        } catch (SecurityException ignored) {}
+        } catch (SecurityException e) {
+            Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -316,8 +318,10 @@ public class MyRun extends Fragment {
         lastLocation = null;
         inputTargetPace.setEnabled(true);
 
-        buttonStartLocation.setText("START RUN");
+        buttonStartLocation.setText("Start Run");
+        buttonStartLocation.setBackgroundColor(Color.GREEN); // Or your default color
         buttonPause.setVisibility(View.GONE);
+        if(inputTargetPace != null) inputTargetPace.setEnabled(true);
 
         if (timerHandler != null && timerRunnable != null) {
             timerHandler.removeCallbacks(timerRunnable);
@@ -325,15 +329,10 @@ public class MyRun extends Fragment {
         if (map != null && pathOverlay != null) {
             map.getOverlays().remove(pathOverlay);
             pathOverlay = null;
-            map.invalidate();
         }
 
-        setPaceColor(Color.TRANSPARENT);
-        textLat.setText("Lat: -");
-        textLng.setText("Lng: -");
-        textSpeed.setText("0.00 m/s");
-        textStatus.setText("Status: Ready");
-        textTimer.setText("00:00");
+        map.invalidate();
+        resetUI();
     }
 
     private void saveRunToFirestore() {
@@ -362,16 +361,28 @@ public class MyRun extends Fragment {
                 Toast.LENGTH_LONG).show();
     }
 
-    private void updateUserTotalScore(int pointsToAdd) {
-        if (pointsToAdd == 0) return;
-
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            db.collection("users").document(user.getUid())
-                    .update("score", FieldValue.increment(pointsToAdd))
-                    .addOnFailureListener(e -> Log.e(TAG, "Error updating score", e));
+        String statusText;
+        if (speed <= 0.1f) {
+            statusText = "Not moving";
+        } else {
+            double diff = speed - targetSpeedMps;
+            if (diff > SPEED_TOLERANCE_MPS) statusText = "Too fast";
+            else if (diff < -SPEED_TOLERANCE_MPS) statusText = "Too slow";
+            else statusText = "On pace";
         }
+        textStatus.setText(String.format("%.2f mi • %s", miles, statusText));
+
+        // Colors
+        int color;
+        switch (statusText) {
+            case "On pace": color = 0xFF2bc335; break; // Green
+            case "Not moving": color = 0xFF9E9E9E; break; // Gray
+            default: color = 0xFFac2121; break; // Red
+        }
+        setPaceColor(color);
     }
+
+    // --- HELPER FUNCTIONS ---
 
     private void pauseRun() {
         if (isUpdatingLocation && !isPaused) {
@@ -520,17 +531,9 @@ public class MyRun extends Fragment {
 
     private void setPaceColor(int color) {
         if (rootLayout != null) rootLayout.setBackgroundColor(color);
-
         if (getActivity() != null) {
-            View activityRoot = getActivity().findViewById(R.id.activityRoot);
-            if (activityRoot != null) activityRoot.setBackgroundColor(color);
-
-            View bottomNav = getActivity().findViewById(R.id.bottomNav);
-            if (bottomNav != null) bottomNav.setBackgroundColor(color);
-
             try {
                 requireActivity().getWindow().setStatusBarColor(color);
-                requireActivity().getWindow().setNavigationBarColor(color);
             } catch (Exception ignored) {}
         }
     }
