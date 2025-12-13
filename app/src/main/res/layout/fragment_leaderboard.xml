@@ -1,245 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:padding="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    android:fillViewport="true">
 
-    <!-- Podium container -->
-    <FrameLayout
-        android:id="@+id/podium_frame"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp">
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center_horizontal">
 
-        <!-- Podium image -->
-        <ImageView
-            android:id="@+id/podium_image"
+        <!-- Page Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Leaderboard"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- PODIUM SECTION -->
+        <FrameLayout
+            android:id="@+id/podium_frame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/podium" />
+            android:layout_marginBottom="24dp">
 
-        <!-- Podium labels over the image -->
-        <androidx.constraintlayout.widget.ConstraintLayout
+            <!-- Podium Image -->
+            <ImageView
+                android:id="@+id/podium_image"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/podium" />
+
+            <!-- Podium Text Overlays -->
+            <!-- elevation=10dp forces text to be drawn on top of the image -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="10dp">
+
+                <!-- 1st Place (Gold) - Moved UP to 115dp -->
+                <TextView
+                    android:id="@+id/txt_first"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#D4AF37"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:shadowColor="#000000"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="2"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:maxWidth="130dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="165dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <!-- 2nd Place (Silver) - Moved UP to 75dp -->
+                <TextView
+                    android:id="@+id/txt_second"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#757575"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:maxWidth="100dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="125dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="30dp" />
+
+                <!-- 3rd Place (Bronze) - Moved UP to 55dp -->
+                <TextView
+                    android:id="@+id/txt_third"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#CD7F32"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:maxWidth="100dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="105dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="30dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+
+        <!-- LIST SECTION (Card Style) -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_marginBottom="24dp">
 
-            <!-- 1st place (center, highest) -->
-            <TextView
-                android:id="@+id/txt_first"
-                android:layout_width="wrap_content"
+            <TableLayout
+                android:id="@+id/leaderboard_table"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:maxWidth="140dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="56dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5" />
+                android:stretchColumns="0,1"
+                android:shrinkColumns="2">
 
-            <!-- 2nd place (left, a bit lower) -->
-            <TextView
-                android:id="@+id/txt_second"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:maxWidth="90dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="32dp" />
+                <!-- Header Row -->
+                <TableRow
+                    android:background="#263238"
+                    android:padding="12dp">
 
-            <!-- 3rd place (right, a bit lower) -->
-            <TextView
-                android:id="@+id/txt_third"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:maxWidth="90dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="0dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="20dp" />
+                    <TextView
+                        android:text="RUNNER"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        android:textSize="12sp"
+                        android:letterSpacing="0.1"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:text="SCORE"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        android:textSize="12sp"
+                        android:letterSpacing="0.1"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal" />
 
-    </FrameLayout>
+                    <TextView
+                        android:text="RANK"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        android:textSize="12sp"
+                        android:letterSpacing="0.1"
+                        android:layout_weight="0.5"
+                        android:gravity="center_horizontal" />
+                </TableRow>
 
+                <!-- ROW 1 -->
+                <TableRow android:padding="12dp">
+                    <TextView android:id="@+id/name1" android:layout_weight="1" android:gravity="center" android:textColor="#333" android:textSize="16sp"/>
+                    <TextView android:id="@+id/score1" android:layout_weight="1" android:gravity="center" android:textColor="#333" android:textSize="16sp" android:textStyle="bold"/>
+                    <TextView android:id="@+id/rank1" android:layout_weight="0.5" android:gravity="center" android:textColor="#666"/>
+                </TableRow>
+                <View android:layout_height="1dp" android:background="#EEEEEE"/>
 
-    <!--  Static Leaderboard Table  -->
-    <TableLayout
-        android:id="@+id/leaderboard_table"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:stretchColumns="0,1"
-        android:shrinkColumns="2"
-        android:padding="8dp">
+                <!-- ROW 2 -->
+                <TableRow android:padding="12dp">
+                    <TextView android:id="@+id/name2" android:layout_weight="1" android:gravity="center" android:textColor="#333" android:textSize="16sp"/>
+                    <TextView android:id="@+id/score2" android:layout_weight="1" android:gravity="center" android:textColor="#333" android:textSize="16sp" android:textStyle="bold"/>
+                    <TextView android:id="@+id/rank2" android:layout_weight="0.5" android:gravity="center" android:textColor="#666"/>
+                </TableRow>
+                <View android:layout_height="1dp" android:background="#EEEEEE"/>
 
-        <!-- Header Row -->
-        <TableRow
-            android:background="#E0E0E0"
-            android:padding="8dp">
+                <!-- ROW 3 -->
+                <TableRow android:padding="12dp">
+                    <TextView android:id="@+id/name3" android:layout_weight="1" android:gravity="center" android:textColor="#333" android:textSize="16sp"/>
+                    <TextView android:id="@+id/score3" android:layout_weight="1" android:gravity="center" android:textColor="#333" android:textSize="16sp" android:textStyle="bold"/>
+                    <TextView android:id="@+id/rank3" android:layout_weight="0.5" android:gravity="center" android:textColor="#666"/>
+                </TableRow>
+                <View android:layout_height="1dp" android:background="#EEEEEE"/>
 
-            <TextView
-                android:text="Name"
-                android:textStyle="bold"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center" />
+                <!-- ROW 4 -->
+                <TableRow android:padding="12dp">
+                    <TextView android:id="@+id/name4" android:layout_weight="1" android:gravity="center" android:textColor="#333" android:textSize="16sp"/>
+                    <TextView android:id="@+id/score4" android:layout_weight="1" android:gravity="center" android:textColor="#333" android:textSize="16sp" android:textStyle="bold"/>
+                    <TextView android:id="@+id/rank4" android:layout_weight="0.5" android:gravity="center" android:textColor="#666"/>
+                </TableRow>
+                <View android:layout_height="1dp" android:background="#EEEEEE"/>
 
-            <TextView
-                android:text="Score"
-                android:textStyle="bold"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center" />
+                <!-- ROW 5 -->
+                <TableRow android:padding="12dp">
+                    <TextView android:id="@+id/name5" android:layout_weight="1" android:gravity="center" android:textColor="#333" android:textSize="16sp"/>
+                    <TextView android:id="@+id/score5" android:layout_weight="1" android:gravity="center" android:textColor="#333" android:textSize="16sp" android:textStyle="bold"/>
+                    <TextView android:id="@+id/rank5" android:layout_weight="0.5" android:gravity="center" android:textColor="#666"/>
+                </TableRow>
+            </TableLayout>
+        </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:text="Rank"
-                android:textStyle="bold"
-                android:layout_weight="0.5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center" />
-        </TableRow>
+        <!-- Refresh Button -->
+        <Button
+            android:id="@+id/buttonRefreshLeaderboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Refresh Leaderboard"
+            android:backgroundTint="#009688"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            app:cornerRadius="20dp"
+            android:layout_marginTop="8dp"/>
 
-        <!-- Data Rows  -->
-        <TableRow android:padding="6dp">
-            <TextView android:id="@+id/name1"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-            <TextView android:id="@+id/score1"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-            <TextView android:id="@+id/rank1"
-                android:layout_weight="0.5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-        </TableRow>
+    </LinearLayout>
 
-        <TableRow android:padding="6dp">
-            <TextView android:id="@+id/name2"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-            <TextView android:id="@+id/score2"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-            <TextView android:id="@+id/rank2"
-                android:layout_weight="0.5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-        </TableRow>
-
-        <TableRow android:padding="6dp">
-            <TextView android:id="@+id/name3"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-            <TextView android:id="@+id/score3"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-            <TextView android:id="@+id/rank3"
-                android:layout_weight="0.5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-        </TableRow>
-
-        <TableRow android:padding="6dp">
-            <TextView android:id="@+id/name4"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-            <TextView android:id="@+id/score4"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-            <TextView android:id="@+id/rank4"
-                android:layout_weight="0.5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-        </TableRow>
-
-        <TableRow android:padding="6dp">
-            <TextView android:id="@+id/name5"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-            <TextView android:id="@+id/score5"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-            <TextView android:id="@+id/rank5"
-                android:layout_weight="0.5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-        </TableRow>
-
-        <TableRow android:padding="6dp">
-            <TextView android:id="@+id/name6"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-            <TextView android:id="@+id/score6"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-            <TextView android:id="@+id/rank6"
-                android:layout_weight="0.5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-        </TableRow>
-    </TableLayout>
-
-    <Button
-        android:id="@+id/buttonRefreshLeaderboard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Refresh"
-        android:padding="8dp"
-        android:layout_marginBottom="12dp"/>
-
-
-</LinearLayout>
+</androidx.core.widget.NestedScrollView>

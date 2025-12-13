@@ -1,94 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#E0E0E0">
 
+    <!-- 1. MAP (Full Screen Background) -->
     <org.osmdroid.views.MapView
         android:id="@+id/map"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <TextView
-        android:id="@+id/textTimer"
+    <!-- 2. TOP STATUS PILL (Floating) -->
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/map"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:text="Time: 00:00"
-        android:textSize="24sp" />
+        android:layout_marginTop="32dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#80FFFFFF"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <!-- Existing button to increment score -->
-        <Button
-            android:id="@+id/buttonIncrementScore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Increment Score" />
-
-        <!-- Show GPS info -->
-        <TextView
-            android:id="@+id/textLat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Lat: -"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/textLng"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lng: -"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/textSpeed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Speed (m/s): -"
-            android:textSize="16sp" />
-
-        <!-- NEW: status of pace -->
         <TextView
             android:id="@+id/textStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Status: -"
-            android:textSize="16sp" />
+            android:text="Status: Ready"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
+    </androidx.cardview.widget.CardView>
 
-        <!-- Button to start/stop/pause GPS updates -->
+    <!-- 3. BOTTOM CONTROL PANEL -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="12dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:gravity="center_horizontal">
 
-            <Button
-                android:id="@+id/buttonStartLocation"
+            <!-- TIMER (Big & Bold) -->
+            <TextView
+                android:id="@+id/textTimer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Start Location" />
+                android:text="00:00"
+                android:textSize="56sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-condensed"
+                android:textColor="#212121"
+                android:includeFontPadding="false"/>
 
-            <Button
-                android:id="@+id/buttonPause"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="Pause" />
+                android:text="DURATION"
+                android:textSize="12sp"
+                android:letterSpacing="0.1"
+                android:textColor="#9E9E9E"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- SPEED DISPLAY -->
+            <TextView
+                android:id="@+id/textSpeed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.00 m/s"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#424242"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CURRENT SPEED"
+                android:textSize="10sp"
+                android:textColor="#9E9E9E"
+                android:layout_marginBottom="24dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Target Pace:"
+                    android:textColor="#424242"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:id="@+id/inputTargetPace"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:text="10"
+                    android:gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="min/mi"
+                    android:textSize="12sp"
+                    android:textColor="#9E9E9E"/>
+            </LinearLayout>
+
+            <!-- BUTTONS ROW -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/buttonPause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pause"
+                    android:backgroundTint="#FF9800"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:visibility="visible"/>
+
+                <Space
+                    android:layout_width="16dp"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:id="@+id/buttonStartLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:text="START RUN"
+                    android:backgroundTint="#2bc335"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    app:cornerRadius="30dp"
+                    android:paddingStart="32dp"
+                    android:paddingEnd="32dp"/>
+            </LinearLayout>
+
+            <!-- Debug Button (Made smaller/subtle) -->
+            <Button
+                android:id="@+id/buttonIncrementScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+1 Score (Debug)"
+                android:textSize="10sp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_marginTop="8dp"/>
+
+            <!-- HIDDEN RAW DATA (Kept to prevent Java Crash) -->
+            <TextView
+                android:id="@+id/textLat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/textLng"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
         </LinearLayout>
-    </LinearLayout>
-</RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
