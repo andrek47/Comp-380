@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -80,6 +81,7 @@ public class MyRun extends Fragment {
     private TextView textTimer;
     private EditText inputTargetPace;
     private View rootLayout;
+    private CardView bottomControlPanel;
     private Button buttonStartLocation, buttonPause;
     private MapView map;
 
@@ -132,6 +134,7 @@ public class MyRun extends Fragment {
         textTimer = view.findViewById(R.id.textTimer);
         inputTargetPace = view.findViewById(R.id.inputTargetPace);
         rootLayout = view.findViewById(R.id.rootLayout);
+        bottomControlPanel = view.findViewById(R.id.bottomControlPanel);
         buttonStartLocation = view.findViewById(R.id.buttonStartLocation);
         buttonPause = view.findViewById(R.id.buttonPause);
         Button buttonIncrementScore = view.findViewById(R.id.buttonIncrementScore);
@@ -175,6 +178,9 @@ public class MyRun extends Fragment {
         buttonStartLocation.setOnClickListener(v -> {
             if (!isUpdatingLocation) {
                 updateTargetPace();
+                if (bottomControlPanel != null) {
+                    bottomControlPanel.setCardBackgroundColor(Color.parseColor("#40FFFFFF"));
+                }
                 checkPermissionAndStartLocation();
             } else {
                 stopLocationUpdates();
@@ -309,6 +315,9 @@ public class MyRun extends Fragment {
         buttonStartLocation.setBackgroundColor(Color.GREEN);
         buttonPause.setVisibility(View.GONE);
         inputTargetPace.setEnabled(true);
+        if (bottomControlPanel != null) {
+            bottomControlPanel.setCardBackgroundColor(Color.WHITE);
+        }
 
         if (timerHandler != null && timerRunnable != null) {
             timerHandler.removeCallbacks(timerRunnable);
