@@ -18,6 +18,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -88,8 +93,34 @@ public class LoginFragment extends Fragment {
             Intent intent = AuthHelper.googleSignIn(requireActivity());
             signInLauncher.launch(intent);
         });
+
+        CallbackManager callbackManager = CallbackManager.Factory.create();
+
+        LoginButton fbloginButton = view.findViewById(R.id.fbLoginButton);
+        fbloginButton.setPermissions("email", "public_profile");
+
+        fbloginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                AuthHelper.handleFacebookAccessToken(
+                        requireActivity(),
+                        loginResult.getAccessToken()
+                );
+            }
+            @Override
+            public void onCancel() {}
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.e("FB", "Login error", error);
+            }
+
+        });
         return view;
     }
+
+
+
 
     // [START on_start_check_user]
     @Override

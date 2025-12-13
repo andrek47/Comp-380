@@ -1,12 +1,19 @@
 package com.comp380.keeppace;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -54,4 +61,51 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+    private FirebaseAuth.AuthStateListener authListener;
+
+    /*@Override
+    protected void onStart() {
+        super.onStart();
+
+        authListener = auth -> {
+            FirebaseUser user = auth.getCurrentUser();
+            if (user != null) {
+                Log.d("AUTH", "User logged in, navigating");
+                AuthHelper.goToHome(this);
+            }
+        };
+
+        FirebaseAuth.getInstance().addAuthStateListener(authListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (authListener != null) {
+            FirebaseAuth.getInstance().removeAuthStateListener(authListener);
+        }
+    }*/
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Log.d("AUTH_GATE", "onResume user = " + user);
+
+        if (user != null) {
+            Intent intent = new Intent(this, HomePage.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        AuthHelper.onActivityResult(requestCode, resultCode, data);
+        AuthHelper.signInHelper(this, requestCode, resultCode, data);
+    }
+
 }
