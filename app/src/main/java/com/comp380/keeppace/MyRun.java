@@ -41,11 +41,6 @@ import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
-import android.os.VibrationEffect;
-import android.os.Vibrator;
-import android.os.VibratorManager;
-import android.content.Context;
-
 public class MyRun extends Fragment {
 
     private static final String TAG = "MyRun";
@@ -96,13 +91,6 @@ public class MyRun extends Fragment {
 
     // Fragment view-state flag
     private boolean viewIsAlive = false;
-
-    private String lastPaceStatus = "Ready";
-
-    private long lastBuzzTime = 0;
-    private static final long BUZZ_COOLDOWN_MS = 3000; // 3 seconds
-
-
 
     @Nullable
     @Override
@@ -467,67 +455,7 @@ public class MyRun extends Fragment {
                 setPaceColor(0xFFac2121); // Red
                 break;
         }
-
-        textStatus.setText(statusText);
-
-        if (statusText.equals("Too slow")) {
-            long now = System.currentTimeMillis();
-            if (now - lastBuzzTime >= BUZZ_COOLDOWN_MS) {
-                buzz();
-                lastBuzzTime = now;
-            }
-        }
-        // Too fast - buzz every update
-        else if (statusText.equals("Too fast")) {
-            buzz();
-        }
-
-        lastPaceStatus = statusText;
-
-
     }
-    private void buzz() {
-        Context ctx = getContext();
-        if (ctx == null) return;
-
-        try {
-            Vibrator vibrator;
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-                VibratorManager vm = (VibratorManager) ctx.getSystemService(Context.VIBRATOR_MANAGER_SERVICE);
-                if (vm == null) {
-                    Log.w(TAG, "VibratorManager is null, cannot buzz");
-                    return;
-                }
-                vibrator = vm.getDefaultVibrator();
-            } else {
-                vibrator = (Vibrator) ctx.getSystemService(Context.VIBRATOR_SERVICE);
-            }
-
-            if (vibrator == null || !vibrator.hasVibrator()) {
-                Log.w(TAG, "No vibrator on this device");
-                return;
-            }
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                VibrationEffect effect = VibrationEffect.createOneShot(
-                        150,
-                        VibrationEffect.DEFAULT_AMPLITUDE
-                );
-                vibrator.vibrate(effect);
-            } else {
-                // Deprecated on newer APIs but fine for old ones
-                vibrator.vibrate(150);
-            }
-
-        } catch (SecurityException e) {
-            Log.w(TAG, "Missing VIBRATE permission, skipping buzz", e);
-        }
-    }
-
-
-
-
 
     private void setPaceColor(int color) {
         if (rootLayout != null) rootLayout.setBackgroundColor(color);
