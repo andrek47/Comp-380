@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.EditText;
+
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -38,13 +40,27 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
+/**
+ *
+ * MyRun Class
+ *
+ * Uses Googles FusedLocationProviderClient (FLPC) to get the users gps location every second
+ * Uses Android location Api to get the users speed in m/s
+ * It than compares the users speed to a target speed the user set
+ * The user recieves feedback in the form of color. Green - on pace, Red - off pace, gray - not moving
+ * Uses OSMDroid to show a live map of the user and a polyline to show the users track
+ *
+ */
+
+
 
 public class MyRun extends Fragment {
 
     private static final String TAG = "MyRun";
     private static final int REQUEST_LOCATION_PERMISSION = 100;
 
-    private static final double TARGET_SPEED_MPS = 0.8;
+    private double targetSpeedMps = 0.8; // default if user does nothing
+
     private static final double SPEED_TOLERANCE_MPS = 0.3;
 
     // Firebase
@@ -79,6 +95,10 @@ public class MyRun extends Fragment {
     private long startTime = 0L;
     private long elapsedTime = 0L;
 
+    private static final double METERS_PER_MILE = 1609.34;
+    private static final int DEFAULT_MILE_MIN = 12;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -107,6 +127,8 @@ public class MyRun extends Fragment {
         buttonPause = view.findViewById(R.id.buttonPause);
         Button buttonIncrementScore = view.findViewById(R.id.buttonIncrementScore);
         map = view.findViewById(R.id.map);
+        EditText inputMileTime = view.findViewById(R.id.inputMileTime);
+
 
         // Map setup - FIXED
         map.setTileSource(TileSourceFactory.MAPNIK);
@@ -134,6 +156,8 @@ public class MyRun extends Fragment {
 
         buttonIncrementScore.setOnClickListener(v -> incrementUserScore());
 
+
+
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
@@ -147,11 +171,24 @@ public class MyRun extends Fragment {
 
         buttonStartLocation.setOnClickListener(v -> {
             if (!isUpdatingLocation) {
+
+                // Read user mile time input (expected "mm:ss")
+                String mileText = inputMileTime.getText().toString().trim();
+                if (!mileText.isEmpty()) {
+                    targetSpeedMps = convertMileTimeToMps(mileText);
+                    Log.d(TAG, "Using targetSpeedMps=" + targetSpeedMps + " m/s from mile time " + mileText);
+                } else {
+                    // fallback to default 12:00 min/mile
+                    targetSpeedMps = METERS_PER_MILE / (DEFAULT_MILE_MIN * 60.0);
+                }
+
                 checkPermissionAndStartLocation();
             } else {
                 stopLocationUpdates();
             }
         });
+
+
 
         buttonPause.setOnClickListener(v -> {
             if (isPaused) resumeRun();
@@ -294,7 +331,7 @@ public class MyRun extends Fragment {
         if (speed <= 0.1f) {
             statusText = "Not moving";
         } else {
-            double diff = speed - TARGET_SPEED_MPS;
+            double diff = speed - targetSpeedMps;
             if (diff > SPEED_TOLERANCE_MPS) statusText = "Too fast";
             else if (diff < -SPEED_TOLERANCE_MPS) statusText = "Too slow";
             else statusText = "On pace";
@@ -333,6 +370,34 @@ public class MyRun extends Fragment {
             } catch (Exception ignored) {}
         }
     }
+
+    private double convertMileTimeToMps(String mileTime) {
+        // Expected formats: "mm:ss", "m:ss", or just "mm"
+        try {
+            String[] parts = mileTime.split(":");
+            int minutes = 0;
+            int seconds = 0;
+
+            if (parts.length == 2) {
+                minutes = Integer.parseInt(parts[0]);
+                seconds = Integer.parseInt(parts[1]);
+            } else if (parts.length == 1) {
+                minutes = Integer.parseInt(parts[0]); // Treat "10" as 10:00
+            } else {
+                return METERS_PER_MILE / (DEFAULT_MILE_MIN * 60.0);
+            }
+
+            int totalSeconds = minutes * 60 + seconds;
+            if (totalSeconds <= 0) {
+                return METERS_PER_MILE / (DEFAULT_MILE_MIN * 60.0);
+            }
+
+            return METERS_PER_MILE / totalSeconds;
+        } catch (NumberFormatException e) {
+            return METERS_PER_MILE / (DEFAULT_MILE_MIN * 60.0);
+        }
+    }
+
 
     @Override
     public void onDestroyView() {
