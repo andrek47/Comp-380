@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ public class Leaderboard extends Fragment {
     private TextView[] nameViews;
     private TextView[] scoreViews;
     private TextView[] rankViews;
+    SwipeRefreshLayout swipeRefresh;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +53,13 @@ public class Leaderboard extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_leaderboard, container, false);
+
+        swipeRefresh = view.findViewById(R.id.swipeRefresh);
+
+        swipeRefresh.setOnRefreshListener(() -> {
+            loadLeaderboard();
+            swipeRefresh.setRefreshing(false);
+        });
 
         // Podium TextViews
         txtFirst = view.findViewById(R.id.txt_first);
@@ -151,5 +160,7 @@ public class Leaderboard extends Fragment {
             scoreViews[i].setText("");
             rankViews[i].setText("");
         }
+
     }
+
 }
