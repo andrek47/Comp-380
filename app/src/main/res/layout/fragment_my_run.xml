@@ -30,62 +30,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-<<<<<<< HEAD
-=======
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#80FFFFFF"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <!-- Existing button to increment score -->
-        <Button
-            android:id="@+id/buttonIncrementScore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Increment Score" />
-
-
-
-        <EditText
-            android:id="@+id/inputMileTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Mile time (mm:ss)"
-            android:inputType="text"
-            android:layout_marginTop="16dp"
-            android:textSize="16sp" />
-
-
-
-        <!-- Show GPS info -->
-        <TextView
-            android:id="@+id/textLat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Lat: -"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/textLng"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lng: -"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/textSpeed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Speed (m/s): -"
-            android:textSize="16sp" />
-
-        <!-- NEW: status of pace -->
->>>>>>> d0d907905507f00e6e6e1140e177e493294c0865
         <TextView
             android:id="@+id/textStatus"
             android:layout_width="wrap_content"
@@ -158,6 +102,7 @@
                 android:textColor="#9E9E9E"
                 android:layout_marginBottom="24dp"/>
 
+            <!-- INPUT TARGET PACE -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
