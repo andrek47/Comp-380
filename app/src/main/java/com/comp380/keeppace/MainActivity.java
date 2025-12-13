@@ -1,3 +1,8 @@
+/**
+        Checks whether a user is already logged with Firebase.
+        *  - If a user is logged in, then direct to the HomePage.
+        *  - If not, shows a start button which leads to the LoginActivity.
+ */
 package com.comp380.keeppace; // make sure this matches your package name
 
 import androidx.appcompat.app.AppCompatActivity;

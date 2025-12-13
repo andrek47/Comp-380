@@ -1,3 +1,4 @@
+// Login page
 package com.comp380.keeppace;
 
 import static com.comp380.keeppace.AuthHelper.RC_SIGN_IN;

@@ -1,3 +1,8 @@
+/**
+ * - podium section showing 1st, 2nd, and 3rd place
+ * - table displaying the top 5 users from Firestore
+ * - refresh button to reload leaderboard
+ */
 package com.comp380.keeppace;
 
 import android.os.Bundle;

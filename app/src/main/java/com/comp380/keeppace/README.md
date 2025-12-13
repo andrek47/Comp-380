@@ -11,7 +11,7 @@ Example how to use it
   making sure they don't stray away from their pace and if they do they get a buzz from their phone telling
   them they need to speed up or slow down.
 What you need to run it
-- location sharing, an andriod phone, YOU also must download a google certificate... (i forgot why)
+- location sharing, an andriod phone, YOU also must download a (to make it not accessible to anyone besides our team)
 
 - Our set up - 
 fire base handles all of our database needs as well as our authentication for logging into the app
