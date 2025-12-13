@@ -1,3 +1,10 @@
+/**
+ * ViewPagerAdapter manages the fragments displayed in the main ViewPager2.
+ *
+ * Position 0 -> Leaderboard
+ * Position 1 -> MyRun
+ * Position 2 -> ProfilePage
+ */
 package com.comp380.keeppace;
 
 import androidx.annotation.NonNull;

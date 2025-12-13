@@ -33,6 +33,8 @@ public class AuthHelper {
     private static final String TAG = "AuthHelper";
     private static CallbackManager mCallbackManager;
 
+    private static AuthCredential pendingFacebookCredential;
+
     public static void facebookSignIn(Activity activity, LoginButton loginButton) {
 
         mCallbackManager = CallbackManager.Factory.create();
@@ -61,47 +63,46 @@ public class AuthHelper {
             mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    private static void handleFacebookAccessToken (Activity activity, AccessToken token) {
-        Log.d(TAG, "handleFacebookAccessToken:" + token);
+    public static void handleFacebookAccessToken(Activity activity, AccessToken token) {
 
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        AuthCredential facebookCredential =
+                FacebookAuthProvider.getCredential(token.getToken());
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth.getInstance()
+                .signInWithCredential(facebookCredential)
+                .addOnCompleteListener(task -> {
 
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            if(user != null) {
-                                goToHome(activity);
-                            }else{
-                                Log.w(TAG, "User is null");
-                            }
-                        }else {
-                            if(task.getException() instanceof com.google.firebase.auth.FirebaseAuthUserCollisionException) {
-                                Log.w(TAG, "Email already linked with another provider, redirecting to Google Sign-In");
+                    if (task.isSuccessful()) {
+                        // Facebook-only account → done
+                        Log.d(TAG, "Facebook sign-in success");
+                        goToHome(activity);
+                        return; // navigation handled by Activity auth gate
+                    }
 
-                                Toast.makeText(activity, "Redirecting to Google Sign In", Toast.LENGTH_SHORT).show();
+                    if (task.getException() instanceof
+                            com.google.firebase.auth.FirebaseAuthUserCollisionException) {
 
-                                googleSignIn(activity);
+                        // 🔑 SAVE Facebook credential for later linking
+                        pendingFacebookCredential = facebookCredential;
 
-                            }else {
-                                Toast.makeText(activity,
-                                        "Authentication failed: " + (task.getException() != null ? task.getException().getMessage() : ""),
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                        }
+                        Log.d(TAG, "Collision detected. Need Google sign-in to link.");
+
+                        Toast.makeText(activity,
+                                "This account already exists with Google. Please sign in once to link Facebook.",
+                                Toast.LENGTH_LONG).show();
+
+                        googleSignIn(activity);
+
+                    } else {
+                        Log.e(TAG, "Facebook auth failed", task.getException());
                     }
                 });
     }
 
-    private static void goToHome (Activity activity) {
+
+
+
+    public static void goToHome (Activity activity) {
         Intent intent = new Intent(activity, HomePage.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
@@ -123,27 +124,37 @@ public class AuthHelper {
         return intent;
     }
 
-    public static void signInHelper (Activity activity, int requestCode, int resultCode, @Nullable Intent data){
-        if (requestCode == RC_SIGN_IN) {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-            if (resultCode == Activity.RESULT_OK) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Log.d("Login", "Signed in as " + (user != null ? user.getEmail() : "null"));
-                // TODO: navigate to your next screen
-                /*Intent intent = new Intent(activity, HomePage.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                activity.startActivity(intent);
-                activity.finish();*/
-                goToHome(activity);
-            } else {
-                if (response != null && response.getError() != null) {
-                    Log.w("Login", "Sign-in error", response.getError());
-                } else {
-                    Log.w("Login", "Sign-in cancelled");
-                }
+    public static void signInHelper(Activity activity,
+                                    int requestCode,
+                                    int resultCode,
+                                    @Nullable Intent data) {
+
+        if (requestCode != RC_SIGN_IN) return;
+
+        if (resultCode == Activity.RESULT_OK) {
+
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            Log.d("AUTH", "Google sign-in success: " + user.getEmail());
+
+            if (user != null && pendingFacebookCredential != null) {
+
+                user.linkWithCredential(pendingFacebookCredential)
+                        .addOnCompleteListener(linkTask -> {
+
+                            if (linkTask.isSuccessful()) {
+                                Log.d("AUTH", "✅ Facebook linked successfully");
+                            } else {
+                                Log.e("AUTH", "❌ Facebook linking failed",
+                                        linkTask.getException());
+                            }
+
+                            // 🔴 ALWAYS clear after use
+                            pendingFacebookCredential = null;
+                        });
             }
         }
     }
+
     public static void signOut(Activity activity) {
         AuthUI.getInstance()
                 .signOut(activity)
@@ -163,4 +174,5 @@ public class AuthHelper {
                     });
                 });
     }
+
 }
