@@ -10,7 +10,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * Helper class for creating and maintaining user documents in Firestore.
+ *
+ * <p>This utility makes sure that a Firestore user document exists for the currently
+ * authenticated Firebase user. If no document, then create one with
+ * default fields such as display name, email, score, and creation timestamp.
+ *
+ * <p>reason: intended to be called after a successful authentication event
+ * to guarantee that backend user data is initialized, and to help us confirm.
+ */
 public class UserFirestoreHelper {
 
     private static final String TAG = "UserFirestoreHelper";
