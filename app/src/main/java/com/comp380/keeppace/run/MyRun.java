@@ -1,4 +1,4 @@
-package com.comp380.keeppace;
+package com.comp380.keeppace.run;
 
 import android.Manifest;
 import android.content.Context;
@@ -27,6 +27,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.comp380.keeppace.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -55,13 +56,17 @@ public class MyRun extends Fragment {
     private static final String TAG = "MyRun";
     private static final int REQUEST_LOCATION_PERMISSION = 100;
 
+    private static final double SPEED_TOLERANCE_MPS = 0.5;
+    private static final long BUZZ_COOLDOWN_MS = 3000; // 3 seconds
+
     // Pace Logic
     private double targetSpeedMps = 2.68; // Default ~10 min/mile
-    private static final double SPEED_TOLERANCE_MPS = 0.5;
 
     // Buzz logic
     private long lastBuzzTime = 0;
-    private static final long BUZZ_COOLDOWN_MS = 3000; // 3 seconds
+
+    // Fragment view-state flag
+    private boolean viewIsAlive = false;
 
     // Firebase
     private FirebaseFirestore db;
@@ -72,6 +77,24 @@ public class MyRun extends Fragment {
     private LocationCallback locationCallback;
     private boolean isUpdatingLocation = false;
     private boolean isPaused = false;
+
+    // Distance Tracking
+    private double totalDistanceMeters = 0.0;
+    private Location lastLocation = null;
+
+    // Timer
+    private Handler timerHandler;
+    private Runnable timerRunnable;
+    private long startTime = 0L;
+    private long elapsedTime = 0L;
+
+    // Path Recording for Map Viewer
+    private final ArrayList<Double> recordedLats = new ArrayList<>();
+    private final ArrayList<Double> recordedLngs = new ArrayList<>();
+
+    // Map Overlays
+    private Polyline pathOverlay;
+    private MyLocationNewOverlay myLocationOverlay;
 
     // UI
     private TextView textLat;
@@ -84,27 +107,6 @@ public class MyRun extends Fragment {
     private CardView bottomControlPanel;
     private Button buttonStartLocation, buttonPause;
     private MapView map;
-
-    // Map Overlays
-    private Polyline pathOverlay;
-    private MyLocationNewOverlay myLocationOverlay;
-
-    // Timer
-    private Handler timerHandler;
-    private Runnable timerRunnable;
-    private long startTime = 0L;
-    private long elapsedTime = 0L;
-
-    // Distance Tracking
-    private double totalDistanceMeters = 0.0;
-    private Location lastLocation = null;
-
-    // Path Recording for Map Viewer
-    private final ArrayList<Double> recordedLats = new ArrayList<>();
-    private final ArrayList<Double> recordedLngs = new ArrayList<>();
-
-    // Fragment view-state flag
-    private boolean viewIsAlive = false;
 
     @Nullable
     @Override
@@ -295,109 +297,6 @@ public class MyRun extends Fragment {
         }
     }
 
-    // ---------- Stop & save ----------
-
-    private void stopLocationUpdates() {
-        if (fusedLocationClient != null && locationCallback != null) {
-            fusedLocationClient.removeLocationUpdates(locationCallback);
-        }
-
-        saveRunToFirestore();
-
-        isUpdatingLocation = false;
-        isPaused = false;
-
-        elapsedTime = 0L;
-        totalDistanceMeters = 0.0;
-        lastLocation = null;
-
-        buttonStartLocation.setText("Start Run");
-        buttonStartLocation.setBackgroundColor(Color.GREEN);
-        buttonPause.setVisibility(View.GONE);
-        inputTargetPace.setEnabled(true);
-        if (bottomControlPanel != null) {
-            bottomControlPanel.setCardBackgroundColor(Color.WHITE);
-        }
-
-        if (timerHandler != null && timerRunnable != null) {
-            timerHandler.removeCallbacks(timerRunnable);
-        }
-        if (map != null && pathOverlay != null) {
-            map.getOverlays().remove(pathOverlay);
-            pathOverlay = null;
-            map.invalidate();
-        }
-
-        resetUI();
-    }
-
-    private void saveRunToFirestore() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user == null || totalDistanceMeters < 10) return;
-
-        double miles = totalDistanceMeters * 0.000621371;
-        int pointsEarned = (int) miles;
-
-        Map<String, Object> runData = new HashMap<>();
-        runData.put("timestamp", FieldValue.serverTimestamp());
-        runData.put("distanceMeters", totalDistanceMeters);
-        runData.put("timeMillis", elapsedTime);
-        runData.put("points", pointsEarned);
-        runData.put("pathLats", recordedLats);
-        runData.put("pathLngs", recordedLngs);
-
-        db.collection("users").document(user.getUid())
-                .collection("runs")
-                .add(runData);
-
-        updateUserTotalScore(pointsEarned);
-
-        Toast.makeText(requireContext(),
-                String.format("Run Saved! %.2f mi (+%d pts)", miles, pointsEarned),
-                Toast.LENGTH_LONG).show();
-    }
-
-    private void updateUserTotalScore(int pointsToAdd) {
-        if (pointsToAdd == 0) return;
-
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            db.collection("users").document(user.getUid())
-                    .update("score", FieldValue.increment(pointsToAdd))
-                    .addOnFailureListener(e -> Log.e(TAG, "Error updating score", e));
-        }
-    }
-
-    private void incrementUserScore() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user == null) return;
-        db.collection("users").document(user.getUid())
-                .update("score", FieldValue.increment(1));
-    }
-
-    // ---------- Pause / resume ----------
-
-    private void pauseRun() {
-        if (isUpdatingLocation && !isPaused) {
-            isPaused = true;
-            buttonPause.setText("Resume");
-            if (timerHandler != null && timerRunnable != null) {
-                timerHandler.removeCallbacks(timerRunnable);
-            }
-        }
-    }
-
-    private void resumeRun() {
-        if (isUpdatingLocation && isPaused) {
-            isPaused = false;
-            buttonPause.setText("Pause");
-            startTime = System.currentTimeMillis() - elapsedTime;
-            if (timerHandler != null && timerRunnable != null) {
-                timerHandler.post(timerRunnable);
-            }
-        }
-    }
-
     // ---------- Location updates & pace ----------
 
     private void updateUIWithLocation(Location location) {
@@ -506,6 +405,109 @@ public class MyRun extends Fragment {
 
         } catch (SecurityException e) {
             Log.w(TAG, "Missing VIBRATE permission, skipping buzz", e);
+        }
+    }
+
+    // ---------- Stop & save ----------
+
+    private void stopLocationUpdates() {
+        if (fusedLocationClient != null && locationCallback != null) {
+            fusedLocationClient.removeLocationUpdates(locationCallback);
+        }
+
+        saveRunToFirestore();
+
+        isUpdatingLocation = false;
+        isPaused = false;
+
+        elapsedTime = 0L;
+        totalDistanceMeters = 0.0;
+        lastLocation = null;
+
+        buttonStartLocation.setText("Start Run");
+        buttonStartLocation.setBackgroundColor(Color.GREEN);
+        buttonPause.setVisibility(View.GONE);
+        inputTargetPace.setEnabled(true);
+        if (bottomControlPanel != null) {
+            bottomControlPanel.setCardBackgroundColor(Color.WHITE);
+        }
+
+        if (timerHandler != null && timerRunnable != null) {
+            timerHandler.removeCallbacks(timerRunnable);
+        }
+        if (map != null && pathOverlay != null) {
+            map.getOverlays().remove(pathOverlay);
+            pathOverlay = null;
+            map.invalidate();
+        }
+
+        resetUI();
+    }
+
+    private void saveRunToFirestore() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user == null || totalDistanceMeters < 10) return;
+
+        double miles = totalDistanceMeters * 0.000621371;
+        int pointsEarned = (int) miles;
+
+        Map<String, Object> runData = new HashMap<>();
+        runData.put("timestamp", FieldValue.serverTimestamp());
+        runData.put("distanceMeters", totalDistanceMeters);
+        runData.put("timeMillis", elapsedTime);
+        runData.put("points", pointsEarned);
+        runData.put("pathLats", recordedLats);
+        runData.put("pathLngs", recordedLngs);
+
+        db.collection("users").document(user.getUid())
+                .collection("runs")
+                .add(runData);
+
+        updateUserTotalScore(pointsEarned);
+
+        Toast.makeText(requireContext(),
+                String.format("Run Saved! %.2f mi (+%d pts)", miles, pointsEarned),
+                Toast.LENGTH_LONG).show();
+    }
+
+    private void updateUserTotalScore(int pointsToAdd) {
+        if (pointsToAdd == 0) return;
+
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            db.collection("users").document(user.getUid())
+                    .update("score", FieldValue.increment(pointsToAdd))
+                    .addOnFailureListener(e -> Log.e(TAG, "Error updating score", e));
+        }
+    }
+
+    private void incrementUserScore() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user == null) return;
+        db.collection("users").document(user.getUid())
+                .update("score", FieldValue.increment(1));
+    }
+
+    // ---------- Pause / resume ----------
+
+    private void pauseRun() {
+        if (isUpdatingLocation && !isPaused) {
+            isPaused = true;
+            buttonPause.setText("Resume");
+            if (timerHandler != null && timerRunnable != null) {
+                timerHandler.removeCallbacks(timerRunnable);
+            }
+        }
+    }
+
+    private void resumeRun() {
+        if (isUpdatingLocation && isPaused) {
+            isPaused = false;
+            buttonPause.setText("Pause");
+            startTime = System.currentTimeMillis() - elapsedTime;
+            if (timerHandler != null && timerRunnable != null) {
+                timerHandler.post(timerRunnable);
+            }
         }
     }
 

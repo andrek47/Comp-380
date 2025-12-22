@@ -1,4 +1,4 @@
-package com.comp380.keeppace;
+package com.comp380.keeppace.auth;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.comp380.keeppace.main.HomePage;
+import com.comp380.keeppace.main.MainActivity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -15,11 +17,7 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.IdpResponse;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -142,13 +140,13 @@ public class AuthHelper {
                         .addOnCompleteListener(linkTask -> {
 
                             if (linkTask.isSuccessful()) {
-                                Log.d("AUTH", "✅ Facebook linked successfully");
+                                Log.d("AUTH", " Facebook linked successfully");
                             } else {
-                                Log.e("AUTH", "❌ Facebook linking failed",
+                                Log.e("AUTH", " Facebook linking failed",
                                         linkTask.getException());
                             }
 
-                            // 🔴 ALWAYS clear after use
+                            // ALWAYS clear after use
                             pendingFacebookCredential = null;
                         });
             }

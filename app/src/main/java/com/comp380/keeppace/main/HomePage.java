@@ -1,18 +1,19 @@
-package com.comp380.keeppace;
+package com.comp380.keeppace.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.PopupMenu;
 
+import com.comp380.keeppace.settings.MySettingsActivity;
+import com.comp380.keeppace.R;
+import com.comp380.keeppace.model.UserFirestoreHelper;
+import com.comp380.keeppace.adapter.ViewPagerAdapter;
+import com.comp380.keeppace.auth.AuthHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class HomePage extends AppCompatActivity {
     BottomNavigationView bottomNav;

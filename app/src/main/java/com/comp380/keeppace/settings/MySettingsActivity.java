@@ -1,12 +1,10 @@
-package com.comp380.keeppace;
+package com.comp380.keeppace.settings;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.Preference;
-import androidx.preference.SwitchPreferenceCompat;
 
+import com.comp380.keeppace.R;
 import com.google.android.material.appbar.MaterialToolbar;
 
 public class MySettingsActivity extends AppCompatActivity {

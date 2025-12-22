@@ -1,4 +1,4 @@
-package com.comp380.keeppace;
+package com.comp380.keeppace.run;
 
 import com.google.firebase.Timestamp;
 

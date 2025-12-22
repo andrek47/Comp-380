@@ -1,7 +1,7 @@
 // Login page
-package com.comp380.keeppace;
+package com.comp380.keeppace.auth;
 
-import static com.comp380.keeppace.AuthHelper.RC_SIGN_IN;
+import static com.comp380.keeppace.auth.AuthHelper.RC_SIGN_IN;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.comp380.keeppace.main.HomePage;
+import com.comp380.keeppace.R;
+import com.comp380.keeppace.model.UserFirestoreHelper;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;

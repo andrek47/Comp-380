@@ -1,9 +1,13 @@
-package com.comp380.keeppace;
+package com.comp380.keeppace.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.comp380.keeppace.auth.LoginFragment;
+import com.comp380.keeppace.auth.SignUpFragment;
+import com.comp380.keeppace.run.MyRun;
 
 public class LoginAdapter extends FragmentStateAdapter {
 

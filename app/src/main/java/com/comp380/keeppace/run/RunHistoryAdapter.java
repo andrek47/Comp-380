@@ -1,4 +1,4 @@
-package com.comp380.keeppace;
+package com.comp380.keeppace.run;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,6 +6,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.comp380.keeppace.R;
+
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;

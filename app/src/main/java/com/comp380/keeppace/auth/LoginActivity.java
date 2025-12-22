@@ -1,16 +1,17 @@
-package com.comp380.keeppace;
+package com.comp380.keeppace.auth;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.comp380.keeppace.adapter.LoginAdapter;
+import com.comp380.keeppace.main.HomePage;
+import com.comp380.keeppace.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

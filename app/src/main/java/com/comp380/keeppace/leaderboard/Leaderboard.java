@@ -3,7 +3,7 @@
  * - table displaying the top 5 users from Firestore
  * - refresh button to reload leaderboard
  */
-package com.comp380.keeppace;
+package com.comp380.keeppace.leaderboard;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Button;
 
+import com.comp380.keeppace.R;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;

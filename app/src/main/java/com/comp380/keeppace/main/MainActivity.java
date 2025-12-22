@@ -3,7 +3,7 @@
         *  - If a user is logged in, then direct to the HomePage.
         *  - If not, shows a start button which leads to the LoginActivity.
  */
-package com.comp380.keeppace; // make sure this matches your package name
+package com.comp380.keeppace.main; // make sure this matches your package name
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.comp380.keeppace.R;
+import com.comp380.keeppace.auth.LoginActivity;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import com.google.firebase.auth.FirebaseAuth;

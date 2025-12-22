@@ -1,4 +1,4 @@
-package com.comp380.keeppace;
+package com.comp380.keeppace.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,9 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.comp380.keeppace.main.HomePage;
+import com.comp380.keeppace.R;
+import com.comp380.keeppace.model.UserFirestoreHelper;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

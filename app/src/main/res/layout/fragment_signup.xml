@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="24dp"
     android:fitsSystemWindows="true"
-    tools:context="com.comp380.keeppace.LoginFragment">
+    tools:context="com.comp380.keeppace.auth.LoginFragment">
 
     <!-- Center container for all login inputs -->
     <LinearLayout
