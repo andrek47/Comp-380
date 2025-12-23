@@ -1,3 +1,9 @@
+/**
+ * MySettingsActivity does the app settings screen.
+ * starts the settings toolbar, handles navigation,
+ * and loads the SettingsFragment.
+ */
+
 package com.comp380.keeppace.settings;
 
 import android.os.Bundle;

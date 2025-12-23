@@ -1,3 +1,9 @@
+/**
+ * SettingsFragment - user account settings.
+ * shows app preferences, allows users to delete their account (which they should never do)
+ * handles reauthentication if required, and redirects to the login screen.
+ */
+
 package com.comp380.keeppace.settings;
 
 import android.content.Intent;
