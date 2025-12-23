@@ -1,3 +1,10 @@
+/**
+ * HomePage is the screen you see after logging in
+ * It uses a ViewPager2 + BottomNavigationView to switch between app tabs
+ * (Leaderboard, My Run, Profile), it also
+ * provides a floating action button menu for Settings and Sign Out.
+ */
+
 package com.comp380.keeppace.main;
 
 import androidx.appcompat.app.AppCompatActivity;

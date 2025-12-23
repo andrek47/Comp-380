@@ -1,3 +1,10 @@
+/**
+ * LoginActivity handles user authentication.
+ * Uses tab-based login and signup screens,
+ * it also manages navigation between authentication,
+ * and redirects authenticated users to the HomePage.
+ */
+
 package com.comp380.keeppace.auth;
 
 import android.content.Intent;

@@ -1,3 +1,9 @@
+/**
+ * RunModel is a single run recorded by the user.
+ * RunModel will store the run metrics such as distance, duration,
+ * earned points, and the time the run was recorded. Designed with firebase
+ */
+
 package com.comp380.keeppace.run;
 
 import com.google.firebase.Timestamp;

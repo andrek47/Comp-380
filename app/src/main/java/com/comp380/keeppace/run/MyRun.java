@@ -1,3 +1,12 @@
+/**
+ * MyRun handles the live run tracking, which works by
+ * continuously receiving GPS updates through a location callback and
+ * updating distance, pace, map path, and interface.
+ * provides pace feedback (visual + vibration),
+ * displays the running path on a map,
+ * and saves completed runs and points to Firebase to be displayed
+ */
+
 package com.comp380.keeppace.run;
 
 import android.Manifest;

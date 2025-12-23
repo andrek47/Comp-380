@@ -1,3 +1,9 @@
+/**
+ * SignUpFragment allows new user to registration.
+ * creates the user Firestore document if needed,
+ * sends email verification, and redirects users to the HomePage.
+ */
+
 package com.comp380.keeppace.auth;
 
 import android.content.Intent;

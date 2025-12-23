@@ -1,3 +1,9 @@
+/**
+ * LoginAdapter helps authentication to a ViewPager2.
+ * It switches between the LoginFragment and SignUpFragment
+ * based on the selected tab position.
+ */
+
 package com.comp380.keeppace.adapter;
 
 import androidx.annotation.NonNull;

@@ -1,3 +1,11 @@
+/**
+ * ProfilePage shows user information.
+ * It gets the data from Firebase, and then shows total score and distance,
+ * displays run history in a RecyclerView,
+ * allows avatar selection from a list of predetermined options
+ * and calculates the current run streak.
+ */
+
 package com.comp380.keeppace.profile;
 
 import android.app.AlertDialog;

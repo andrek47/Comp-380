@@ -1,4 +1,9 @@
-// Login page
+/**
+ * LoginFragment does sign in
+ * Uses the email/password login,and can do Google sign-in, and Facebook login,
+ * Plus it makes sure that the user Firestore document exists,
+ * and redirects authenticated users to the HomePage.
+ */
 package com.comp380.keeppace.auth;
 
 import static com.comp380.keeppace.auth.AuthHelper.RC_SIGN_IN;

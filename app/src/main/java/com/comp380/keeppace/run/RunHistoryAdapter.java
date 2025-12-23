@@ -1,3 +1,7 @@
+/**
+ * Adapter for showing the list of runs in a RecyclerView.
+ * Binds RunModel data to the run history layout.
+ */
 package com.comp380.keeppace.run;
 
 import android.view.LayoutInflater;
