@@ -17,3 +17,13 @@ What you need to run it
 fire base handles all of our database needs as well as our authentication for logging into the app
 
 
+- Our design pattern -
+  Our app KeepPace uses the Adapter design pattern.
+We use the adapter design to connect the app data such as miles ran and navigation logic to Android
+user interface components in a clean and maintainable way. The reason we chose the Adapter pattern was because it allows us to 
+seperate how data is stored and managed from how it is displayed on screen. For example, RunHistoryAdapter
+adapts a list of RunModel methods into individual RecyclerView items, formatting distance, time, and points 
+without changing the actual model.Also, LoginAdapter adapts tab positions into authentication 
+for ViewPager2, allowing smooth navigation between login and signup screens. By using adapters, 
+we avoid tightly grouping our Interface logic to data structures, making the code easier to extend, reuse, and maintain as 
+the application grows and when we modifie it
